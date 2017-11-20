@@ -25,9 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    mortgagecalc.cpp
+    mortgagecalc.cpp \
+    mattcalculations.cpp
 
 HEADERS  += mainwindow.h \
-    mortgagecalc.h
+    mortgagecalc.h \
+    mattcalculations.h
 
 FORMS    += mainwindow.ui

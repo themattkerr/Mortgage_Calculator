@@ -22,10 +22,17 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QSpinBox" name="Principal">
-      <property name="maximum">
-       <number>10000000</number>
+    <item row="1" column="2">
+     <widget class="QDoubleSpinBox" name="InterestRate">
+      <property name="decimals">
+       <number>4</number>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Number of Years</string>
       </property>
      </widget>
     </item>
@@ -36,18 +43,8 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="InterestRate"/>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Number of Years</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QSpinBox" name="NumOfYears"/>
+    <item row="4" column="2">
+     <widget class="QLineEdit" name="lineEditMonthlyPayment"/>
     </item>
     <item row="3" column="0">
      <widget class="QLabel" name="label_4">
@@ -56,22 +53,15 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
+    <item row="2" column="2">
+     <widget class="QSpinBox" name="NumOfYears"/>
+    </item>
+    <item row="3" column="2">
      <widget class="QSpinBox" name="NumOfPayments">
       <property name="maximum">
        <number>500</number>
       </property>
      </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEditMonthlyPayment"/>
     </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label_6">
@@ -80,10 +70,20 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="1">
+    <item row="5" column="2">
      <widget class="QLabel" name="AmountofInterest">
       <property name="text">
        <string>----</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Monthly Payment</string>
       </property>
      </widget>
     </item>
