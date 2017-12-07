@@ -26,7 +26,7 @@ public:
 
 
 
-    int getPrincipal();
+    double getPrincipal();
     int getNumOfYears();
     int getNumOfPayments();
     double getAnualInterestRate();
@@ -46,7 +46,7 @@ public:
 private:
     int const nNumberOfMonthsInAYear = 12;
     double const dMillRateMultiplier = .001;
-    int m_nPrincipal = 0;
+    double m_dPrincipal = 0;
     int m_nNumOfYears = 0;
     int m_nNumOfPayments = 0;
 

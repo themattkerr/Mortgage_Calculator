@@ -11,7 +11,7 @@ MortgageCalc::MortgageCalc()
 
 void MortgageCalc::calcMonthlyLoanPaymentPandI()
 {
-    if ( m_nPrincipal          > 0 &&
+    if ( m_dPrincipal          > 0 &&
          //m_nNumOfYears    > 0 &&
          m_nNumOfPayments      > 0 &&
          m_dAnualInterestRate  > 0 &&
@@ -24,7 +24,7 @@ void MortgageCalc::calcMonthlyLoanPaymentPandI()
       }
       dTop = m_dMonthlyInterestRate * dTemp;
       dBot = dTemp - 1;
-      m_dMonthyLoanPaymentPandI = m_nPrincipal*(dTop/dBot);
+      m_dMonthyLoanPaymentPandI = m_dPrincipal*(dTop/dBot);
     }
     else
     {
@@ -47,11 +47,11 @@ void MortgageCalc::calcPrincipalFromMonthlyPandI()
       }
       dBot = m_dMonthlyInterestRate * dTemp;
       dTop = dTemp - 1;
-      m_nPrincipal  = m_dMonthyLoanPaymentPandI *(dTop/dBot);
+      m_dPrincipal  = m_dMonthyLoanPaymentPandI *(dTop/dBot);
     }
     else
     {
-        m_nPrincipal = 0;
+        m_dPrincipal = 0;
     }
     return;
 }
@@ -59,9 +59,9 @@ void MortgageCalc::calcPrincipalFromMonthlyPandI()
 void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
 {
     if (m_dPrice > m_dDownPayment)
-        m_nPrincipal = m_dPrice - m_dDownPayment;
+        m_dPrincipal = m_dPrice - m_dDownPayment;
     else
-        m_nPrincipal = 0;
+        m_dPrincipal = 0;
 }
 
 
@@ -79,14 +79,17 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
 
  void MortgageCalc::calcDownPaymentPercent()
  {
-     m_dDownPaymentPercent = m_dDownPayment / m_dPrice;
+     if(m_dPrice >0 && m_dDownPayment >0)
+        m_dDownPaymentPercent = m_dDownPayment / m_dPrice;
+     else
+         m_dDownPaymentPercent =0;
  }
 
  void MortgageCalc::calcPriceFromMontlyPayment()
  {
     if(m_nNumOfPayments > 0 &&
        m_dMonthlyInterestRate > 0 &&
-       m_dDownPaymentPercent > 0 &&
+       //m_dDownPaymentPercent > 0 &&
        m_dMillRate > 0 )
     {
         double dBotPart1 = 0, dBotPart2 = 0;
@@ -123,9 +126,9 @@ void MortgageCalc::refreshData()
         calcDownPaymentPercent();
 
     if (m_dPrice > 0 && m_dDownPayment > 0 && m_bDownpaymentEnteredAsPercent == false)
-    { m_nPrincipal = m_dPrice - m_dDownPayment; }
+    { m_dPrincipal = m_dPrice - m_dDownPayment; }
     if (m_dPrice > 0 && m_dDownPaymentPercent > 0 && m_bDownpaymentEnteredAsPercent == true)
-    { m_nPrincipal =  roundDoubleToPoints( m_dPrice - (m_dPrice * m_dDownPaymentPercent),0) ; }
+    { m_dPrincipal =  roundDoubleToPoints( m_dPrice - (m_dPrice * m_dDownPaymentPercent),0) ; }
 
 
     calcMonthlyLoanPaymentPandI();
@@ -155,7 +158,7 @@ void MortgageCalc::enterDownPaymentDollars(double dDownPaymentDollars)
 
 void MortgageCalc::enterPrincipal(int nPrincipal)
 {
-    m_nPrincipal = nPrincipal;
+    m_dPrincipal = nPrincipal;
 }
 
 void MortgageCalc::enterNumOfYears(int nNumOfYears)
@@ -196,7 +199,9 @@ void MortgageCalc::enterAnualInterestRate(double dAnualInterestRate)
 void MortgageCalc::enterMonthlyPayment(double dMonthlyPayment)
 {
     m_dMonthyPayment = dMonthlyPayment;
-    calcPrincipalFromPriceAndDownPayment();
+    //calcPrincipalFromPriceAndDownPayment();
+    calcPriceFromMontlyPayment();
+    refreshData();
 }
 
 void MortgageCalc::enterPrice(double dPrice)
@@ -220,10 +225,10 @@ void MortgageCalc::setDownPaymentCalcFromPercent(bool bCalcFromPercent)
 
 // ------Public Get Functions --------------------------------
 
-int MortgageCalc::getPrincipal()
+double MortgageCalc::getPrincipal()
 {
     refreshData();
-    return m_nPrincipal;
+    return m_dPrincipal;
 }
 
 int MortgageCalc::getNumOfYears()
@@ -253,7 +258,7 @@ double MortgageCalc::getMonthlyPayment()
 double MortgageCalc::getInterestPaid()
 {
     refreshData();
-    double dTemp = (m_dMonthyLoanPaymentPandI*m_nNumOfPayments ) - m_nPrincipal;
+    double dTemp = (m_dMonthyLoanPaymentPandI*m_nNumOfPayments ) - m_dPrincipal;
     if (dTemp < 0)
         return 0;
     return dTemp;
