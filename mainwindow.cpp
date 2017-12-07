@@ -23,13 +23,34 @@ void MainWindow::on_pushButton_clicked()
 
     ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS ) );
     ui->AmountofInterest->setText( doubleToCurrency (m_Mort.getInterestPaid(), 0, US_DOLLARS)    );
+
+
     ui->lineEditDownPayment->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
     ui->doubleSpinBoxDownPaymentPercent->setValue(m_Mort.getDownPaymentPercent()*100  );
+    ui->labelDownPayment ->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
+    ui->labelDownPaymentPercent->setText( addCommasToDouble( m_Mort.getDownPaymentPercent()*100, 2 ).append(" %") );
+
     ui->labelMontlyTax->setText( doubleToCurrency (m_Mort.getMonthlyTaxPayment(), 2, US_DOLLARS ) );
     ui->labelPrincipalAndInterest->setText( doubleToCurrency(m_Mort.getPrincipalAndInterestMontlyPayment() , 2, US_DOLLARS  )  ); //<-----------------------------
     ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate() );
     ui->lineEditOtherMonthly->setText( doubleToCurrency( m_Mort.getOtherMontlyExpenses() , 2, US_DOLLARS)  );
     ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( calcAnualExpenses(), 0, US_DOLLARS) );
+
+    if(m_Mort.getDownPaymentCalcFromPercent())
+    {
+        ui->doubleSpinBoxDownPaymentPercent->show();
+        ui->lineEditDownPayment->hide();
+        ui->labelDownPaymentPercent->hide();
+        ui->labelDownPayment->show();
+    }
+    else
+    {
+        ui->doubleSpinBoxDownPaymentPercent->hide();
+        ui->lineEditDownPayment->show();
+        ui->labelDownPaymentPercent->show();
+        ui->labelDownPayment->hide();
+    }
+
 
 }
 
