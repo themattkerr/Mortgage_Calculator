@@ -46,10 +46,20 @@ private slots:
 
     void on_checkBox_clicked(bool checked);
 
+    void on_doubleSpinBoxMillRate_editingFinished();
+
+    //void on_lineEditOtherMonthly_selectionChanged();
+
+    //void on_lineEditOtherMonthly_textChanged(const QString &arg1);
+
+    void on_lineEditOtherMonthly_editingFinished();
+
 private:
     Ui::MainWindow *ui;
 
     MortgageCalc m_Mort;
+
+    double calcAnualExpenses();
 
 };
 

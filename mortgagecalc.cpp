@@ -58,7 +58,7 @@ void MortgageCalc::calcPrincipalFromMonthlyPandI()
 
 void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
 {
-    if (m_dPrice > m_dDownPayment)
+    if (m_dPrice >= m_dDownPayment)
         m_dPrincipal = m_dPrice - m_dDownPayment;
     else
         m_dPrincipal = 0;
@@ -67,7 +67,7 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
 
  void MortgageCalc::calcDownPaymentDollars()
  {
-     if(m_dDownPaymentPercent > 0 &&
+     if(m_dDownPaymentPercent >= 0 &&
         m_dPrice > 0     )
      {
          m_dDownPayment = m_dPrice * m_dDownPaymentPercent;
@@ -87,10 +87,12 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
 
  void MortgageCalc::calcPriceFromMontlyPayment()
  {
-    if(m_nNumOfPayments > 0 &&
+    //This is used if a percentage for downpayment is entered
+     if(m_nNumOfPayments > 0 &&
        m_dMonthlyInterestRate > 0 &&
        //m_dDownPaymentPercent > 0 &&
-       m_dMillRate > 0 )
+       m_dMillRate > 0 &&
+       m_bDownpaymentEnteredAsPercent == true)
     {
         double dBotPart1 = 0, dBotPart2 = 0;
         double dTop = 0, dBot = 0, dTemp = 1;
@@ -102,8 +104,31 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
         dBot = dTemp - 1;
         dBotPart1 = dTop/dBot;
         dBotPart2 = m_dMillRate*dMillRateMultiplier/nNumberOfMonthsInAYear;
-        m_dPrice = m_dMonthyPayment/(dBotPart1+dBotPart2);
+        m_dPrice = (m_dMonthyPayment - m_dOtherMontlyExpenses) /(dBotPart1+dBotPart2);
+        if(m_dDownPayment == 0 && m_dDownPaymentPercent ==0)
+            m_dPrincipal = m_dPrice;
      }
+    //This is used to calculate if an explicite downpaynent amount is entered
+    else if(m_nNumOfPayments > 0 &&
+       m_dMonthlyInterestRate > 0 &&
+       m_dMillRate > 0 &&
+       m_bDownpaymentEnteredAsPercent == false)
+    {
+
+         double dTop = 0, dBot = 0, dTemp = 1;
+         for(int iii = 1; iii <= m_nNumOfPayments; iii++)
+         {
+             dTemp = dTemp * (1+m_dMonthlyInterestRate);
+         }
+        dTop = (((m_dMonthyPayment-m_dOtherMontlyExpenses)*(dTemp-1))/(m_dMonthlyInterestRate * dTemp)) + m_dDownPayment ;
+        dBot = 1 + (((m_dMillRate*dMillRateMultiplier)*(dTemp - 1))/( nNumberOfMonthsInAYear * m_dMonthlyInterestRate * dTemp)) ;
+        m_dPrice = dTop/dBot;
+
+
+         if(m_dDownPayment == 0 )
+            m_dPrincipal = m_dPrice;
+    }
+
     else
     {
         m_dPrice = 0;
@@ -216,6 +241,11 @@ void MortgageCalc::enterMillRate(double dMillRate)
     refreshData();
 }
 
+void MortgageCalc::enterOtherMonthlyExpenses(double dOtherMontlyExpenses)
+{
+    m_dOtherMontlyExpenses = dOtherMontlyExpenses;
+}
+
 void MortgageCalc::setDownPaymentCalcFromPercent(bool bCalcFromPercent)
 {
     m_bDownpaymentEnteredAsPercent = bCalcFromPercent;
@@ -252,7 +282,7 @@ double MortgageCalc::getAnualInterestRate()
 double MortgageCalc::getMonthlyPayment()
 {
     refreshData();
-    return m_dMonthyLoanPaymentPandI + m_dMonthlyTaxPayment;
+    return m_dMonthyLoanPaymentPandI + m_dMonthlyTaxPayment + m_dOtherMontlyExpenses;
 }
 
 double MortgageCalc::getInterestPaid()
@@ -289,4 +319,18 @@ double MortgageCalc::getDownPaymentPercent()
 double MortgageCalc::getMonthlyTaxPayment()
 {
     return m_dMonthlyTaxPayment;
+}
+
+double MortgageCalc::getPrincipalAndInterestMontlyPayment()
+{
+    return m_dMonthyLoanPaymentPandI;
+}
+
+bool MortgageCalc::getDownPaymentCalcFromPercent()
+{
+   return m_bDownpaymentEnteredAsPercent;
+}
+double MortgageCalc::getOtherMontlyExpenses()
+{
+    return m_dOtherMontlyExpenses;
 }

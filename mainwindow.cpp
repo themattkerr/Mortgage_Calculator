@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    on_pushButton_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -24,21 +25,24 @@ void MainWindow::on_pushButton_clicked()
     ui->AmountofInterest->setText( doubleToCurrency (m_Mort.getInterestPaid(), 0, US_DOLLARS)    );
     ui->lineEditDownPayment->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
     ui->doubleSpinBoxDownPaymentPercent->setValue(m_Mort.getDownPaymentPercent()*100  );
-    ui->lineEditMontlyTax->setText( doubleToCurrency (m_Mort.getMonthlyTaxPayment(), 2, US_DOLLARS ) );
+    ui->labelMontlyTax->setText( doubleToCurrency (m_Mort.getMonthlyTaxPayment(), 2, US_DOLLARS ) );
+    ui->labelPrincipalAndInterest->setText( doubleToCurrency(m_Mort.getPrincipalAndInterestMontlyPayment() , 2, US_DOLLARS  )  ); //<-----------------------------
     ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate() );
+    ui->lineEditOtherMonthly->setText( doubleToCurrency( m_Mort.getOtherMontlyExpenses() , 2, US_DOLLARS)  );
+    ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( calcAnualExpenses(), 0, US_DOLLARS) );
 
 }
 
 void MainWindow::on_NumOfYears_valueChanged(int arg1)
 {
-    m_Mort.enterNumOfYears(ui->NumOfYears->value() );
+    m_Mort.enterNumOfYears(arg1 );
     ui->NumOfPayments->setValue(m_Mort.getNumOfPayments()  );
     on_pushButton_clicked();
 }
 
 void MainWindow::on_NumOfPayments_valueChanged(int arg1)
 {
-    m_Mort.enterNumOfPayments(ui->NumOfPayments->value() );
+    m_Mort.enterNumOfPayments(arg1 );
     ui->NumOfYears->setValue(m_Mort.getNumOfYears() );
     on_pushButton_clicked();
 }
@@ -54,7 +58,7 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
 void MainWindow::on_InterestRate_valueChanged(double arg1)
 {
 
-        double dTemp = ui->InterestRate->value() / 100;
+        double dTemp = arg1 / 100;
         m_Mort.enterAnualInterestRate(dTemp);
         on_pushButton_clicked();
 }
@@ -102,8 +106,7 @@ void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1)
 
 void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
 {
-    m_Mort.enterMillRate(arg1);
-    on_pushButton_clicked();
+
 }
 
 void MainWindow::on_checkBox_clicked(bool checked)
@@ -111,3 +114,29 @@ void MainWindow::on_checkBox_clicked(bool checked)
     m_Mort.setDownPaymentCalcFromPercent(checked);
     on_pushButton_clicked();
 }
+
+void MainWindow::on_doubleSpinBoxMillRate_editingFinished()
+{
+    m_Mort.enterMillRate(ui->doubleSpinBoxMillRate->value() );
+    on_pushButton_clicked();
+}
+
+//void MainWindow::on_lineEditOtherMonthly_textChanged(const QString &arg1)
+//{
+//     double dTemp = usDollarsStringToDouble( arg1);
+//     ui->lineEditOtherMonthly->setText( doubleToCurrency( dTemp, 2, US_DOLLARS)  );
+//}
+
+void MainWindow::on_lineEditOtherMonthly_editingFinished()
+{
+    double dTemp = usDollarsStringToDouble(ui->lineEditOtherMonthly->text() );
+    m_Mort.enterOtherMonthlyExpenses(dTemp);
+    on_pushButton_clicked();
+}
+
+ double MainWindow::calcAnualExpenses()
+ {
+     int const nNumOfMonthsInYear = 12;
+     double dTemp = (m_Mort.getMonthlyTaxPayment()*nNumOfMonthsInYear) + (m_Mort.getOtherMontlyExpenses()*nNumOfMonthsInYear) ;
+     return dTemp;
+ }

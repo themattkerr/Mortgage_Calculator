@@ -21,8 +21,10 @@ public:
 
     void enterPrice(double dPrice);
     void enterMillRate(double dMillRate);
+    void enterOtherMonthlyExpenses(double dOtherMontlyExpenses);
 
     void setDownPaymentCalcFromPercent(bool bCalcFromPercent);
+
 
 
 
@@ -39,6 +41,10 @@ public:
     double getDownPaymentPercent();
 
     double getMonthlyTaxPayment();
+    double getPrincipalAndInterestMontlyPayment();
+
+    bool getDownPaymentCalcFromPercent();
+    double getOtherMontlyExpenses();
 
 
 
@@ -46,6 +52,8 @@ public:
 private:
     int const nNumberOfMonthsInAYear = 12;
     double const dMillRateMultiplier = .001;
+    double m_dMillRate = 23.9718;
+
     double m_dPrincipal = 0;
     int m_nNumOfYears = 0;
     int m_nNumOfPayments = 0;
@@ -61,8 +69,8 @@ private:
     double m_dDownPaymentPercent =0;
     bool m_bDownpaymentEnteredAsPercent = false;
 
-    double m_dMillRate = 0;
     double m_dMonthlyTaxPayment = 0;
+    double m_dOtherMontlyExpenses = 0;
 
     void calcMonthlyLoanPaymentPandI();
     void calcPrincipalFromMonthlyPandI();
