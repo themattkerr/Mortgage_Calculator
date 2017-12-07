@@ -26,6 +26,26 @@ private slots:
 
     void on_lineEdit_textChanged(const QString &arg1);
 
+    void on_InterestRate_valueChanged(double arg1);
+
+    void on_InterestRate_editingFinished();
+
+    //void on_lineEditMonthlyPayment_textChanged(const QString &arg1);
+
+    void on_lineEditMonthlyPayment_editingFinished();
+
+    void on_lineEditDownPayment_textChanged(const QString &arg1);
+
+    void on_lineEditPrice_textChanged(const QString &arg1);
+
+    void on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1);
+
+    void on_doubleSpinBoxMillRate_valueChanged(double arg1);
+
+    //void on_checkBox_clicked();
+
+    void on_checkBox_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 

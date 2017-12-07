@@ -15,6 +15,17 @@ public:
     void enterMonthlyInterestRate(double dMontlyInterestRate);
     void enterMonthlyPayment(double dMonthlyPayment);
 
+    void enterAnualTax(double dAnualTax);
+    void enterDownPaymentPercent(double dDownPaymentPercent);
+    void enterDownPaymentDollars(double dDownPaymentDollars);
+
+    void enterPrice(double dPrice);
+    void enterMillRate(double dMillRate);
+
+    void setDownPaymentCalcFromPercent(bool bCalcFromPercent);
+
+
+
     int getPrincipal();
     int getNumOfYears();
     int getNumOfPayments();
@@ -22,17 +33,47 @@ public:
     double getMonthlyPayment();
     double getInterestPaid();
 
+    double getPrice();
+    double getMillRate();
+    double getDownPaymentDollars();
+    double getDownPaymentPercent();
+
+    double getMonthlyTaxPayment();
+
+
+
 
 private:
     int const nNumberOfMonthsInAYear = 12;
+    double const dMillRateMultiplier = .001;
     int m_nPrincipal = 0;
     int m_nNumOfYears = 0;
     int m_nNumOfPayments = 0;
+
     double m_dAnualInterestRate = 0;
     double m_dMonthlyInterestRate = 0;
-    double m_dMonthlyPayment = 0;
+    double m_dMonthyLoanPaymentPandI = 0;
+    double m_dMonthyPayment = 0;
 
-    void calcMonthlyPayment();
+    double m_dPrice = 0;
+
+    double m_dDownPayment = 0;
+    double m_dDownPaymentPercent =0;
+    bool m_bDownpaymentEnteredAsPercent = false;
+
+    double m_dMillRate = 0;
+    double m_dMonthlyTaxPayment = 0;
+
+    void calcMonthlyLoanPaymentPandI();
+    void calcPrincipalFromMonthlyPandI();
+    void calcPrincipalFromPriceAndDownPayment();
+
+    void calcDownPaymentPercent();
+    void calcDownPaymentDollars();
+
+    void calcPriceFromMontlyPayment();
+    void calcMontlyTax();
+    void calcMillRate();
 
 
     void refreshData();
