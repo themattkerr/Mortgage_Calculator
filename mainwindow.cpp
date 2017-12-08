@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 MainWindow::~MainWindow()
@@ -14,7 +14,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::refreshFields()
 {
 
 
@@ -64,11 +64,16 @@ void MainWindow::on_pushButton_clicked()
 
     m_Mort.getNumOfPayments();
     ui->spinBoxExtraPaymentNum->setMaximum(m_Mort.getNumOfPayments());
+    ui->spinBoxRecurringExtraStartPoint->setMaximum(m_Mort.getNumOfPayments());
 
     if ( bShowTable )
         showAmortizationSchedule();
     else
         hideAmortizationSchedule();
+    if (bShowExtraPayments)
+        showExtraPayments();
+    else
+        hideExtraPayments();
 
     //adjustSize();
 }
@@ -77,14 +82,14 @@ void MainWindow::on_NumOfYears_valueChanged(int arg1)
 {
     m_Mort.enterNumOfYears(arg1 );
     ui->NumOfPayments->setValue(m_Mort.getNumOfPayments()  );
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_NumOfPayments_valueChanged(int arg1)
 {
     m_Mort.enterNumOfPayments(arg1 );
     ui->NumOfYears->setValue(m_Mort.getNumOfYears() );
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_lineEdit_textChanged(const QString &arg1)
@@ -92,7 +97,7 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
      double dTemp = usDollarsStringToDouble(arg1);
      m_Mort.enterPrincipal(dTemp);
      ui->lineEdit->setText( doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ) );
-     on_pushButton_clicked();
+     refreshFields();
 }
 
 void MainWindow::on_InterestRate_valueChanged(double arg1)
@@ -100,14 +105,14 @@ void MainWindow::on_InterestRate_valueChanged(double arg1)
 
         double dTemp = arg1 / 100;
         m_Mort.enterAnualInterestRate(dTemp);
-        on_pushButton_clicked();
+        refreshFields();
 }
 
 void MainWindow::on_InterestRate_editingFinished()
 {
     double dTemp = ui->InterestRate->value() / 100;
     m_Mort.enterAnualInterestRate(dTemp);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 //void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
@@ -120,28 +125,28 @@ void MainWindow::on_lineEditMonthlyPayment_editingFinished()
     double dTemp = usDollarsStringToDouble(ui->lineEditMonthlyPayment->text());
     m_Mort.enterMonthlyPayment(dTemp);
     //ui->lineEditMonthlyPayment->setText( doubleToCurrency(m_Mort.getMonthlyPayment(),2,US_DOLLARS) );
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_lineEditDownPayment_textChanged(const QString &arg1)
 {
     double dTemp = usDollarsStringToDouble(arg1);
     m_Mort.enterDownPaymentDollars(dTemp);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_lineEditPrice_textChanged(const QString &arg1)
 {
     double dTemp = usDollarsStringToDouble( arg1);
     m_Mort.enterPrice(dTemp);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1)
 {
     double dTemp = arg1 / 100;
     m_Mort.enterDownPaymentPercent(dTemp);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 //void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
@@ -152,13 +157,13 @@ void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1)
 void MainWindow::on_checkBox_clicked(bool checked)
 {
     m_Mort.setDownPaymentCalcFromPercent(checked);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_doubleSpinBoxMillRate_editingFinished()
 {
     m_Mort.enterMillRate(ui->doubleSpinBoxMillRate->value() );
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 //void MainWindow::on_lineEditOtherMonthly_textChanged(const QString &arg1)
@@ -171,7 +176,7 @@ void MainWindow::on_lineEditOtherMonthly_editingFinished()
 {
     double dTemp = usDollarsStringToDouble(ui->lineEditOtherMonthly->text() );
     m_Mort.enterOtherMonthlyExpenses(dTemp);
-    on_pushButton_clicked();
+    refreshFields();
 }
 
  double MainWindow::calcAnualExpenses()
@@ -185,16 +190,16 @@ void MainWindow::on_lineEditExtraPayAmount_editingFinished()
 {
      double dInsert = usDollarsStringToDouble(  ui->lineEditExtraPayAmount->text());
      ui->lineEditExtraPayAmount->setText( doubleToCurrency ( dInsert,0,US_DOLLARS ) );
-     on_pushButton_clicked();
+     refreshFields();
 }
 
-void MainWindow::on_pushButtonInsert_clicked()
-{
+//void MainWindow::on_pushButtonInsert_clicked()
+//{
 //    double dInsert = usDollarsStringToDouble(  ui->lineEditExtraPayAmount->text());
 //    QString strTemp = m_Mort.getAmortizationSchedule(ui->spinBoxExtraPaymentNum->value() , dInsert );
 //    ui->textBrowser->clear();
 //    ui->textBrowser->setText( strTemp );
-}
+//}
 
 //void MainWindow::on_pushButton_toggled(bool checked)
 //{
@@ -217,7 +222,7 @@ void MainWindow::showExtraPayments()
 {
     ui->lineEditExtraPayAmount->show();
     ui->spinBoxExtraPaymentNum->show();
-    ui->pushButtonInsert->show();
+    ui->pushButtonClearExtraPayments->show();
     ui->label_extraamount->show();
     ui->label_ExtraPaymentNum->show();
     ui->label_extratitle->show();
@@ -231,7 +236,7 @@ void MainWindow::hideExtraPayments()
 {
     ui->lineEditExtraPayAmount->hide();
     ui->spinBoxExtraPaymentNum->hide();
-    ui->pushButtonInsert->hide();
+    ui->pushButtonClearExtraPayments->hide();
     ui->label_extraamount->hide();
     ui->label_ExtraPaymentNum->hide();
     ui->label_extratitle->hide();
@@ -247,19 +252,19 @@ void MainWindow::hideExtraPayments()
 //        bShowTable = false;
 //    else
 //        bShowTable = true;
-//    on_pushButton_clicked();
+//    refreshFields();
 //}
 
 void MainWindow::on_actionShow_Amortization_Shedule_toggled(bool arg1)
 {
     bShowTable = arg1;
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_actionShow_Extra_Payments_toggled(bool arg1)
 {
     bShowExtraPayments = arg1;
-    on_pushButton_clicked();
+    refreshFields();
 }
 
 void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
@@ -271,3 +276,13 @@ void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
 }
 
 
+
+void MainWindow::on_pushButtonClearExtraPayments_clicked()
+{
+    ui->lineEditExtraPayAmount->clear();
+    ui->lineEditRecurringExtraAmount->clear();
+    ui->spinBoxExtraPaymentNum->setValue(0);
+    ui->spinBoxRecurringExtraStartPoint->setValue(0);
+    refreshFields();
+
+}

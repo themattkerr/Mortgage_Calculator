@@ -29,7 +29,7 @@
      <widget class="QSpinBox" name="spinBoxRecurringExtraStartPoint"/>
     </item>
     <item row="14" column="3">
-     <widget class="QPushButton" name="pushButtonInsert">
+     <widget class="QPushButton" name="pushButtonClearExtraPayments">
       <property name="text">
        <string>Clear Extra Payments</string>
       </property>

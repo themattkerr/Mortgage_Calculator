@@ -18,7 +18,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+
 
     void on_NumOfYears_valueChanged(int arg1);
 
@@ -56,7 +56,7 @@ private slots:
 
     void on_lineEditExtraPayAmount_editingFinished();
 
-    void on_pushButtonInsert_clicked();
+//    void on_pushButtonInsert_clicked();
 
 //    void on_pushButton_toggled(bool checked);
 
@@ -68,7 +68,9 @@ private slots:
 
     void on_actionShow_Extra_Payments_toggled(bool arg1);
 
-    void on_actionShow_Extra_Payments_triggered(bool checked);
+//    void on_actionShow_Extra_Payments_triggered(bool checked);
+
+    void on_pushButtonClearExtraPayments_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -84,6 +86,8 @@ private:
     void showExtraPayments();
     void hideExtraPayments();
     bool bShowExtraPayments = false;
+
+    void refreshFields();
 
 };
 
