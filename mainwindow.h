@@ -83,6 +83,8 @@ private:
 
     MortgageCalc m_Mort;
 
+    double m_dTotalIntrestPaid = 0;
+
     double calcAnualExpenses();
 
     void showAmortizationSchedule();

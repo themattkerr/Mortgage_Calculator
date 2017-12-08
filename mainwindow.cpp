@@ -71,11 +71,16 @@ void MainWindow::refreshFields()
     ui->spinBoxRecurringExtraStop->setMaximum(m_Mort.getNumOfPayments());
     ui->spinBoxRecurringExtraStartPoint->setMaximum(ui->spinBoxRecurringExtraStop->value());
 
-    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, strAnualReport );
-    ui->textBrowser->setText(strReport);
+    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, strAnualReport, m_dTotalIntrestPaid  );
+    ui->LabelInterestPaid->setText( doubleToCurrency( m_dTotalIntrestPaid , 0, US_DOLLARS) );
+    ui->label_InterestDifference ->setText( doubleToCurrency( ( m_Mort.getInterestPaid() - m_dTotalIntrestPaid) , 0, US_DOLLARS) );
+    //ui->textBrowser->setText(strReport);
 
     if ( bShowTable )
+    {
         showAmortizationSchedule();
+        ui->textBrowser->setText(strReport);
+    }
     else
         hideAmortizationSchedule();
     if (bShowExtraPayments)
@@ -217,12 +222,15 @@ void MainWindow::on_lineEditExtraPayAmount_editingFinished()
 void MainWindow::showAmortizationSchedule()
 {
     ui->textBrowser->show();
+    ui->lineAmortizationTable->show();
 
 
 }
 void MainWindow::hideAmortizationSchedule()
 {
     ui->textBrowser->hide();
+    ui->lineAmortizationTable->hide();
+
 
 }
 
@@ -241,6 +249,11 @@ void MainWindow::showExtraPayments()
     ui->spinBoxRecurringExtraStop->show();
     ui->labelRecurringExtraStopNum->show();
     ui->label_RecurringAmount->show();
+    ui->line_Payments->show();
+    ui->LabelInterestPaid->show();
+    ui->label_sumInterest->show();
+    ui->label_InterestDifference->show();
+    ui->label_Diff->show();
 }
 
 void MainWindow::hideExtraPayments()
@@ -257,7 +270,12 @@ void MainWindow::hideExtraPayments()
     ui->spinBoxRecurringExtraStartPoint->hide();
     ui->spinBoxRecurringExtraStop->hide();
     ui->labelRecurringExtraStopNum->hide();
-     ui->label_RecurringAmount->hide();
+    ui->label_RecurringAmount->hide();
+    ui->line_Payments->hide();
+    ui->LabelInterestPaid->hide();
+    ui->label_sumInterest->hide();
+    ui->label_InterestDifference->hide();
+    ui->label_Diff->hide();
 }
 
 //void MainWindow::on_pushButton_clicked(bool checked)
