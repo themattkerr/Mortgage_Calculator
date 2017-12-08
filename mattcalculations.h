@@ -56,7 +56,8 @@ QString addDecimalPoint (QString strInput, unsigned int nNumberOfDecimalPlaces);
 QString reverseQString(QString strInput);
 void swapChar(QChar &cA, QChar &cB);
 
-
+QString drawLine();
+QString drawLine(int nLength, char chCharToUse);
 
 
 

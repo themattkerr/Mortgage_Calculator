@@ -334,3 +334,114 @@ double MortgageCalc::getOtherMontlyExpenses()
 {
     return m_dOtherMontlyExpenses;
 }
+
+QString MortgageCalc::getAmortizationSchedule()
+{
+    int nTempUnused = 0;
+    return getAmortizationSchedule(nTempUnused, nTempUnused);
+}
+
+QString MortgageCalc::getAmortizationSchedule(double dRegularExtraPayment)
+{
+    QString strTemp;
+    int nTempUnused = 0;
+    double dTempUnused = 0;
+
+    return getAmortizationSchedule(nTempUnused, dTempUnused, dRegularExtraPayment, strTemp );
+}
+
+QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount)
+{
+    QString strTemp;
+    return getAmortizationSchedule(nInsertPaymentNum, dAmount, strTemp );
+}
+
+QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount, QString &strAnualReport)
+{
+    double dTempRegularExtraPayment = 0;
+    return getAmortizationSchedule(nInsertPaymentNum, dAmount, dTempRegularExtraPayment, strAnualReport);
+}
+
+QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount, double dRegularExtraPayment, QString &strAnualReport )
+{
+    QString strSpace = " --- "; strSpace.append("\t");
+    QString strReportOutput = "";
+        strReportOutput.append("Payment").append(strSpace)
+                .append("Remaining").append(strSpace)
+                .append("Principal").append(strSpace)
+                .append("Interest")
+                .append("\n");
+
+    //QString strAnualReport = "";
+    int    nYearNum = 1;
+    double dCurrentPrincipal = m_dPrincipal;
+    double dCurrentIntrestPayment = 0;
+    double dCurrentPrincipalPayment = 0;
+    double dAnualInterestPayed = 0;
+    double dAnualPrincipalPayed = 0;
+
+
+
+    for(int nPaymentNum = 1; nPaymentNum <= m_nNumOfPayments; nPaymentNum++)
+    {
+        strReportOutput.append(QString::number(nPaymentNum)).append(strSpace).append(strSpace);
+        dCurrentIntrestPayment = dCurrentPrincipal * m_dMonthlyInterestRate;
+        dCurrentPrincipal = dCurrentPrincipal + dCurrentIntrestPayment;
+        dCurrentPrincipalPayment =  m_dMonthyLoanPaymentPandI - dCurrentIntrestPayment;
+
+        if( nPaymentNum == nInsertPaymentNum )
+        {
+            dCurrentPrincipal = dCurrentPrincipal - dAmount;
+
+        }
+
+        if( dCurrentIntrestPayment < 0 )
+            dCurrentIntrestPayment = 0;
+        if( dCurrentPrincipal < 0 )
+        {
+            dCurrentPrincipal = 0;
+            dCurrentPrincipalPayment = 0;
+        }
+        if( dCurrentPrincipalPayment < 0  )
+            dCurrentPrincipalPayment = 0;
+        if( dCurrentPrincipalPayment > dCurrentPrincipal)
+        {
+            dCurrentPrincipalPayment = dCurrentPrincipal - dCurrentIntrestPayment;
+        }
+        dAnualInterestPayed = dAnualInterestPayed + dCurrentIntrestPayment;
+        dAnualPrincipalPayed= dAnualPrincipalPayed+ dCurrentPrincipalPayment;
+
+        strReportOutput.append( doubleToCurrency (dCurrentPrincipal, 2, US_DOLLARS) );
+        if (dCurrentPrincipal > 0)
+            strReportOutput.append(strSpace)
+                       .append( doubleToCurrency (dCurrentPrincipalPayment, 2, US_DOLLARS) ).append(strSpace)
+                       .append( doubleToCurrency (dCurrentIntrestPayment, 2, US_DOLLARS) );
+         if( nPaymentNum == nInsertPaymentNum && dAmount > 0 )
+         {
+            dAnualPrincipalPayed = dAnualPrincipalPayed + dAmount;
+             strReportOutput.append("\t   <---------Extra Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
+         }
+        strReportOutput.append("\n");
+        //Anual report
+         if (!(nPaymentNum % nNumberOfMonthsInAYear ))
+         {
+             strAnualReport.clear(); // <------------------------------------This needs to go if you want an actual anual report
+             strAnualReport.append( drawLine() ).append("\n");
+             strAnualReport.append("Year: ").append(QString::number(nYearNum)).append(strSpace);
+             strAnualReport.append("Principal Payed: ").append( doubleToCurrency (dAnualPrincipalPayed, 0, US_DOLLARS) ).append(strSpace);
+             strAnualReport.append("Interest Payed: ").append( doubleToCurrency(dAnualInterestPayed, 0, US_DOLLARS ) );
+             strAnualReport.append("\n");
+             strAnualReport.append( drawLine() ).append("\n");
+
+             dAnualInterestPayed = 0;
+             dAnualPrincipalPayed = 0;
+             strReportOutput.append(strAnualReport);
+             nYearNum++;
+         }
+
+         dCurrentPrincipal = dCurrentPrincipal - m_dMonthyLoanPaymentPandI;
+
+    }
+    return strReportOutput;
+
+}

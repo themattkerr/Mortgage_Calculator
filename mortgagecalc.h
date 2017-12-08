@@ -46,7 +46,11 @@ public:
     bool getDownPaymentCalcFromPercent();
     double getOtherMontlyExpenses();
 
-
+    QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount, double dRegularExtraPayment, QString &strAnualReport);
+    QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount, QString &strAnualReport);
+    QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount);
+    QString getAmortizationSchedule(double dRegularExtraPayment);
+    QString getAmortizationSchedule();
 
 
 private:

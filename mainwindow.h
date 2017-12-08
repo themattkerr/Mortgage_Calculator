@@ -40,7 +40,7 @@ private slots:
 
     void on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1);
 
-    void on_doubleSpinBoxMillRate_valueChanged(double arg1);
+//    void on_doubleSpinBoxMillRate_valueChanged(double arg1);
 
     //void on_checkBox_clicked();
 
@@ -54,12 +54,36 @@ private slots:
 
     void on_lineEditOtherMonthly_editingFinished();
 
+    void on_lineEditExtraPayAmount_editingFinished();
+
+    void on_pushButtonInsert_clicked();
+
+//    void on_pushButton_toggled(bool checked);
+
+//    void on_pushButton_clicked(bool checked);
+
+    void on_actionShow_Amortization_Shedule_toggled(bool arg1);
+
+    void on_lineEdit_2_textChanged(const QString &arg1);
+
+    void on_actionShow_Extra_Payments_toggled(bool arg1);
+
+    void on_actionShow_Extra_Payments_triggered(bool checked);
+
 private:
     Ui::MainWindow *ui;
 
     MortgageCalc m_Mort;
 
     double calcAnualExpenses();
+
+    void showAmortizationSchedule();
+    void hideAmortizationSchedule();  
+    bool bShowTable = false;
+
+    void showExtraPayments();
+    void hideExtraPayments();
+    bool bShowExtraPayments = false;
 
 };
 

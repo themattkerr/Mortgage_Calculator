@@ -515,3 +515,18 @@ void swapChar(QChar &cA, QChar &cB)
     cA = cB;
     cB = cTemp;
 }
+
+QString drawLine()
+{
+    int nDefaultLength = 60;
+    int nDefaultChar = '_';
+    return drawLine(nDefaultLength, nDefaultChar);
+}
+
+QString drawLine(int nLength, char chCharToUse)
+{
+    QString strLine = "";
+    for(int iii = 1; iii <= nLength; iii++)
+        strLine.append(chCharToUse);
+    return strLine;
+}

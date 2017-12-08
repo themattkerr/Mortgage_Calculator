@@ -42,6 +42,7 @@ void MainWindow::on_pushButton_clicked()
         ui->lineEditDownPayment->hide();
         ui->labelDownPaymentPercent->hide();
         ui->labelDownPayment->show();
+
     }
     else
     {
@@ -51,7 +52,25 @@ void MainWindow::on_pushButton_clicked()
         ui->labelDownPayment->hide();
     }
 
+    ui->textBrowser->clear();
+    QString strReport;
+    QString strAnualReport;
+    int nPaymentNum = ui->spinBoxExtraPaymentNum->value();
+    double dExtraPaymentAmount = usDollarsStringToDouble ( ui->lineEditExtraPayAmount->text());
+    double dRecurringExtraPayment;
 
+    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, dRecurringExtraPayment, strAnualReport );
+    ui->textBrowser->setText(strReport);
+
+    m_Mort.getNumOfPayments();
+    ui->spinBoxExtraPaymentNum->setMaximum(m_Mort.getNumOfPayments());
+
+    if ( bShowTable )
+        showAmortizationSchedule();
+    else
+        hideAmortizationSchedule();
+
+    //adjustSize();
 }
 
 void MainWindow::on_NumOfYears_valueChanged(int arg1)
@@ -106,7 +125,7 @@ void MainWindow::on_lineEditMonthlyPayment_editingFinished()
 
 void MainWindow::on_lineEditDownPayment_textChanged(const QString &arg1)
 {
-    double dTemp = usDollarsStringToDouble(ui->lineEditDownPayment ->text());
+    double dTemp = usDollarsStringToDouble(arg1);
     m_Mort.enterDownPaymentDollars(dTemp);
     on_pushButton_clicked();
 }
@@ -125,10 +144,10 @@ void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1)
     on_pushButton_clicked();
 }
 
-void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
-{
+//void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
+//{
 
-}
+//}
 
 void MainWindow::on_checkBox_clicked(bool checked)
 {
@@ -161,3 +180,94 @@ void MainWindow::on_lineEditOtherMonthly_editingFinished()
      double dTemp = (m_Mort.getMonthlyTaxPayment()*nNumOfMonthsInYear) + (m_Mort.getOtherMontlyExpenses()*nNumOfMonthsInYear) ;
      return dTemp;
  }
+
+void MainWindow::on_lineEditExtraPayAmount_editingFinished()
+{
+     double dInsert = usDollarsStringToDouble(  ui->lineEditExtraPayAmount->text());
+     ui->lineEditExtraPayAmount->setText( doubleToCurrency ( dInsert,0,US_DOLLARS ) );
+     on_pushButton_clicked();
+}
+
+void MainWindow::on_pushButtonInsert_clicked()
+{
+//    double dInsert = usDollarsStringToDouble(  ui->lineEditExtraPayAmount->text());
+//    QString strTemp = m_Mort.getAmortizationSchedule(ui->spinBoxExtraPaymentNum->value() , dInsert );
+//    ui->textBrowser->clear();
+//    ui->textBrowser->setText( strTemp );
+}
+
+//void MainWindow::on_pushButton_toggled(bool checked)
+//{
+
+//}
+
+void MainWindow::showAmortizationSchedule()
+{
+    ui->textBrowser->show();
+
+
+}
+void MainWindow::hideAmortizationSchedule()
+{
+    ui->textBrowser->hide();
+
+}
+
+void MainWindow::showExtraPayments()
+{
+    ui->lineEditExtraPayAmount->show();
+    ui->spinBoxExtraPaymentNum->show();
+    ui->pushButtonInsert->show();
+    ui->label_extraamount->show();
+    ui->label_ExtraPaymentNum->show();
+    ui->label_extratitle->show();
+    ui->label_recurringExtra->show();
+    ui->lineEditRecurringExtraAmount->show();
+    ui->labelRecurringStartNum->show();
+    ui->spinBoxRecurringExtraStartPoint->show();
+}
+
+void MainWindow::hideExtraPayments()
+{
+    ui->lineEditExtraPayAmount->hide();
+    ui->spinBoxExtraPaymentNum->hide();
+    ui->pushButtonInsert->hide();
+    ui->label_extraamount->hide();
+    ui->label_ExtraPaymentNum->hide();
+    ui->label_extratitle->hide();
+    ui->label_recurringExtra->hide();
+    ui->lineEditRecurringExtraAmount->hide();
+    ui->labelRecurringStartNum->hide();
+    ui->spinBoxRecurringExtraStartPoint->hide();
+}
+
+//void MainWindow::on_pushButton_clicked(bool checked)
+//{
+//    if(bShowTable)
+//        bShowTable = false;
+//    else
+//        bShowTable = true;
+//    on_pushButton_clicked();
+//}
+
+void MainWindow::on_actionShow_Amortization_Shedule_toggled(bool arg1)
+{
+    bShowTable = arg1;
+    on_pushButton_clicked();
+}
+
+void MainWindow::on_actionShow_Extra_Payments_toggled(bool arg1)
+{
+    bShowExtraPayments = arg1;
+    on_pushButton_clicked();
+}
+
+void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
+{
+    if(arg1 == "")
+        this->setWindowTitle("Mode RN - Mortgage Calculator");
+    else
+        this->setWindowTitle(arg1);
+}
+
+
