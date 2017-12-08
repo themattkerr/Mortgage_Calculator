@@ -72,6 +72,12 @@ private slots:
 
     void on_pushButtonClearExtraPayments_clicked();
 
+    void on_spinBoxRecurringExtraStartPoint_valueChanged(int arg1);
+
+    void on_spinBoxRecurringExtraStop_valueChanged(int arg1);
+
+    void on_lineEditRecurringExtraAmount_editingFinished();
+
 private:
     Ui::MainWindow *ui;
 

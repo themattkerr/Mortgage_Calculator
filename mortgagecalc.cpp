@@ -341,13 +341,13 @@ QString MortgageCalc::getAmortizationSchedule()
     return getAmortizationSchedule(nTempUnused, nTempUnused);
 }
 
-QString MortgageCalc::getAmortizationSchedule(double dRegularExtraPayment)
+QString MortgageCalc::getAmortizationSchedule(int nStartExtraPayments, double dRegularExtraPayment, int nStopExtraPayments)
 {
     QString strTemp;
     int nTempUnused = 0;
     double dTempUnused = 0;
 
-    return getAmortizationSchedule(nTempUnused, dTempUnused, dRegularExtraPayment, strTemp );
+    return getAmortizationSchedule(nTempUnused, dTempUnused, nStartExtraPayments,  dRegularExtraPayment, nStopExtraPayments,  strTemp );
 }
 
 QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount)
@@ -359,10 +359,11 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmo
 QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount, QString &strAnualReport)
 {
     double dTempRegularExtraPayment = 0;
-    return getAmortizationSchedule(nInsertPaymentNum, dAmount, dTempRegularExtraPayment, strAnualReport);
+    int nTemp = 0;
+    return getAmortizationSchedule(nInsertPaymentNum, dAmount, nTemp, dTempRegularExtraPayment, nTemp, strAnualReport);
 }
 
-QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount, double dRegularExtraPayment, QString &strAnualReport )
+QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount,int nStartExtraPayments, double dRegularExtraPayment,int nStopExtraPayments, QString &strAnualReport )
 {
     QString strSpace = " --- "; strSpace.append("\t");
     QString strReportOutput = "";
@@ -392,8 +393,9 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmo
         if( nPaymentNum == nInsertPaymentNum )
         {
             dCurrentPrincipal = dCurrentPrincipal - dAmount;
-
         }
+        if (nPaymentNum >= nStartExtraPayments && nPaymentNum <= nStopExtraPayments && nStartExtraPayments > 0  )
+            dCurrentPrincipal = dCurrentPrincipal - dRegularExtraPayment;
 
         if( dCurrentIntrestPayment < 0 )
             dCurrentIntrestPayment = 0;
@@ -416,7 +418,16 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmo
             strReportOutput.append(strSpace)
                        .append( doubleToCurrency (dCurrentPrincipalPayment, 2, US_DOLLARS) ).append(strSpace)
                        .append( doubleToCurrency (dCurrentIntrestPayment, 2, US_DOLLARS) );
-         if( nPaymentNum == nInsertPaymentNum && dAmount > 0 )
+
+        if (nPaymentNum >= nStartExtraPayments &&
+                nPaymentNum <= nStopExtraPayments &&
+                nStartExtraPayments > 0 &&
+                dRegularExtraPayment > 0 &&
+                dCurrentPrincipal > 0   )
+
+            strReportOutput.append("  <-- Recurring Extra Payment: ").append( doubleToCurrency ( dRegularExtraPayment,2, US_DOLLARS ) );
+
+        if( nPaymentNum == nInsertPaymentNum && dAmount > 0 )
          {
             dAnualPrincipalPayed = dAnualPrincipalPayed + dAmount;
              strReportOutput.append("\t   <---------Extra Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
@@ -428,8 +439,8 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmo
              strAnualReport.clear(); // <------------------------------------This needs to go if you want an actual anual report
              strAnualReport.append( drawLine() ).append("\n");
              strAnualReport.append("Year: ").append(QString::number(nYearNum)).append(strSpace);
-             strAnualReport.append("Principal Payed: ").append( doubleToCurrency (dAnualPrincipalPayed, 0, US_DOLLARS) ).append(strSpace);
-             strAnualReport.append("Interest Payed: ").append( doubleToCurrency(dAnualInterestPayed, 0, US_DOLLARS ) );
+             strAnualReport.append("Principal Paid: ").append( doubleToCurrency (dAnualPrincipalPayed, 0, US_DOLLARS) ).append(strSpace);
+             strAnualReport.append("Interest Paid: ").append( doubleToCurrency(dAnualInterestPayed, 0, US_DOLLARS ) );
              strAnualReport.append("\n");
              strAnualReport.append( drawLine() ).append("\n");
 

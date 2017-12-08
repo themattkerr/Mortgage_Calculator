@@ -222,7 +222,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Montly Tax</string>
+       <string>Monthly Tax</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
@@ -297,7 +297,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Amount of interst</string>
+       <string>Amount of Interest</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
@@ -364,7 +364,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Anual Taxes and Costs</string>
+       <string>Annual Taxes and Costs</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
@@ -431,6 +431,23 @@
      <widget class="QLabel" name="labelRecurringStartNum">
       <property name="text">
        <string>Payment Start Number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="2">
+     <widget class="QSpinBox" name="spinBoxRecurringExtraStop"/>
+    </item>
+    <item row="17" column="2">
+     <widget class="QLabel" name="labelRecurringExtraStopNum">
+      <property name="text">
+       <string>Payment Stop Number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="1">
+     <widget class="QLabel" name="label_RecurringAmount">
+      <property name="text">
+       <string>Amount</string>
       </property>
      </widget>
     </item>

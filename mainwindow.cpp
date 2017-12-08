@@ -57,14 +57,22 @@ void MainWindow::refreshFields()
     QString strAnualReport;
     int nPaymentNum = ui->spinBoxExtraPaymentNum->value();
     double dExtraPaymentAmount = usDollarsStringToDouble ( ui->lineEditExtraPayAmount->text());
-    double dRecurringExtraPayment;
 
-    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, dRecurringExtraPayment, strAnualReport );
-    ui->textBrowser->setText(strReport);
+    double dRecurringExtraPayment = usDollarsStringToDouble( ui->lineEditRecurringExtraAmount->text()) ;
+    ui->lineEditRecurringExtraAmount->setText( doubleToCurrency(dRecurringExtraPayment,2,US_DOLLARS) );
+    int nStartExtraPayments = ui->spinBoxRecurringExtraStartPoint->value();
+    int nStopExtraPayments = ui->spinBoxRecurringExtraStop->value() ;
 
-    m_Mort.getNumOfPayments();
+
+
+//    m_Mort.getNumOfPayments();
     ui->spinBoxExtraPaymentNum->setMaximum(m_Mort.getNumOfPayments());
-    ui->spinBoxRecurringExtraStartPoint->setMaximum(m_Mort.getNumOfPayments());
+
+    ui->spinBoxRecurringExtraStop->setMaximum(m_Mort.getNumOfPayments());
+    ui->spinBoxRecurringExtraStartPoint->setMaximum(ui->spinBoxRecurringExtraStop->value());
+
+    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, strAnualReport );
+    ui->textBrowser->setText(strReport);
 
     if ( bShowTable )
         showAmortizationSchedule();
@@ -230,6 +238,9 @@ void MainWindow::showExtraPayments()
     ui->lineEditRecurringExtraAmount->show();
     ui->labelRecurringStartNum->show();
     ui->spinBoxRecurringExtraStartPoint->show();
+    ui->spinBoxRecurringExtraStop->show();
+    ui->labelRecurringExtraStopNum->show();
+    ui->label_RecurringAmount->show();
 }
 
 void MainWindow::hideExtraPayments()
@@ -244,6 +255,9 @@ void MainWindow::hideExtraPayments()
     ui->lineEditRecurringExtraAmount->hide();
     ui->labelRecurringStartNum->hide();
     ui->spinBoxRecurringExtraStartPoint->hide();
+    ui->spinBoxRecurringExtraStop->hide();
+    ui->labelRecurringExtraStopNum->hide();
+     ui->label_RecurringAmount->hide();
 }
 
 //void MainWindow::on_pushButton_clicked(bool checked)
@@ -283,6 +297,26 @@ void MainWindow::on_pushButtonClearExtraPayments_clicked()
     ui->lineEditRecurringExtraAmount->clear();
     ui->spinBoxExtraPaymentNum->setValue(0);
     ui->spinBoxRecurringExtraStartPoint->setValue(0);
+    ui->spinBoxRecurringExtraStop->setValue(m_Mort.getNumOfPayments() );
     refreshFields();
 
+}
+
+void MainWindow::on_spinBoxRecurringExtraStartPoint_valueChanged(int arg1)
+{
+    if(ui->spinBoxRecurringExtraStop->value() < arg1)
+        ui->spinBoxRecurringExtraStop->setValue(arg1);
+    refreshFields();
+}
+
+void MainWindow::on_spinBoxRecurringExtraStop_valueChanged(int arg1)
+{
+    if(ui->spinBoxRecurringExtraStartPoint->value() > arg1)
+        ui->spinBoxRecurringExtraStartPoint->setValue(arg1);
+    refreshFields();
+}
+
+void MainWindow::on_lineEditRecurringExtraAmount_editingFinished()
+{
+    refreshFields();
 }
