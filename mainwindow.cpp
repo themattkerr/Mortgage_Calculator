@@ -69,7 +69,7 @@ void MainWindow::refreshFields()
     ui->spinBoxExtraPaymentNum->setMaximum(m_Mort.getNumOfPayments());
 
     ui->spinBoxRecurringExtraStop->setMaximum(m_Mort.getNumOfPayments());
-    ui->spinBoxRecurringExtraStartPoint->setMaximum(ui->spinBoxRecurringExtraStop->value());
+    ui->spinBoxRecurringExtraStartPoint->setMaximum(m_Mort.getNumOfPayments());
 
     if( bShowExtraPayments || bShowTable )
     {
