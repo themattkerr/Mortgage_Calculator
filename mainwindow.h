@@ -30,7 +30,7 @@ private slots:
 
     void on_InterestRate_editingFinished();
 
-    //void on_lineEditMonthlyPayment_textChanged(const QString &arg1);
+
 
     void on_lineEditMonthlyPayment_editingFinished();
 
@@ -40,9 +40,7 @@ private slots:
 
     void on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1);
     void on_doubleSpinBoxDownPaymentPercent_editingFinished();
-//    void on_doubleSpinBoxMillRate_valueChanged(double arg1);
 
-    //void on_checkBox_clicked();
 
     void on_checkBox_clicked(bool checked);
 

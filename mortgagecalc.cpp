@@ -448,17 +448,17 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
         dCurrentPrincipalPayment =  m_dMonthyLoanPaymentPandI - dCurrentIntrestPayment;
         dTotalInterestPaid = dTotalInterestPaid + dCurrentIntrestPayment;
 
-        if( nPaymentNum == nInsertPaymentNum )
-        {
-            dCurrentPrincipal = dCurrentPrincipal - dAmount;
-        }
+//        if( nPaymentNum == nInsertPaymentNum )
+//        {
+//            dCurrentPrincipal = dCurrentPrincipal - dAmount;
+//        }
         //recurring payment here:
-        if (nPaymentNum >= nStartExtraPayments && nPaymentNum <= nStopExtraPayments && nStartExtraPayments > 0  )
-        {
-            //nRecurringPaymentIndex++;
-            if( !(nRecurringPaymentIndex % nPaymentOffset ))
-                dCurrentPrincipal = dCurrentPrincipal - dRegularExtraPayment;
-        }
+//        if (nPaymentNum >= nStartExtraPayments && nPaymentNum <= nStopExtraPayments && nStartExtraPayments > 0  )
+//        {
+//            //nRecurringPaymentIndex++;
+//            if( !(nRecurringPaymentIndex % nPaymentOffset ))
+//                dCurrentPrincipal = dCurrentPrincipal - dRegularExtraPayment;
+//        }
 
         if( dCurrentIntrestPayment < 0 )
             dCurrentIntrestPayment = 0;
@@ -483,24 +483,33 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
                        .append( spaceOut(doubleToCurrency (dCurrentPrincipalPayment, 2, US_DOLLARS) ))//.append(strSpace)
                        .append( doubleToCurrency (dCurrentIntrestPayment, 2, US_DOLLARS) );
 
+        //Calculations take place after this
+        dCurrentPrincipal = dCurrentPrincipal - m_dMonthyLoanPaymentPandI;
+
         if (nPaymentNum >= nStartExtraPayments &&
                 nPaymentNum <= nStopExtraPayments &&
                 nStartExtraPayments > 0 &&
                 dRegularExtraPayment > 0 &&
-                dCurrentPrincipal > 0   )
+                dCurrentPrincipal > 0 &&
+                dCurrentPrincipal > dRegularExtraPayment )
         {
 
             if( !(nRecurringPaymentIndex % nPaymentOffset ))
             {
+                dCurrentPrincipal = dCurrentPrincipal - dRegularExtraPayment;
+                if(dCurrentPrincipal > 0)
+                {
                 strReportOutput.append("  <-- Extra: ").append( doubleToCurrency ( dRegularExtraPayment,2, US_DOLLARS ) );
-
+                dAnualPrincipalPayed = dAnualPrincipalPayed + dRegularExtraPayment;
+                }
             }
             nRecurringPaymentIndex++;
         }
 
-        if( nPaymentNum == nInsertPaymentNum && dAmount > 0 )
+        if( nPaymentNum == nInsertPaymentNum && dAmount > 0 && dAmount < dCurrentPrincipal )
          {
             dAnualPrincipalPayed = dAnualPrincipalPayed + dAmount;
+            dCurrentPrincipal = dCurrentPrincipal - dAmount;
              strReportOutput.append("  <---------One-Time Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
          }
         strReportOutput.append("\n");
@@ -528,7 +537,7 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
              nYearNum++;
          }
 
-         dCurrentPrincipal = dCurrentPrincipal - m_dMonthyLoanPaymentPandI;
+//         dCurrentPrincipal = dCurrentPrincipal - m_dMonthyLoanPaymentPandI;
 
     }
     return strReportOutput;

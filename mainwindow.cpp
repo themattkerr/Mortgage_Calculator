@@ -282,6 +282,8 @@ void MainWindow::showExtraPayments()
     ui->label_sumInterest->show();
     ui->label_InterestDifference->show();
     ui->label_Diff->show();
+    ui->labelPaymentOffsetTitle->show();
+    ui->spinBoxPaymentOffset->show();
 }
 
 void MainWindow::hideExtraPayments()
@@ -304,6 +306,8 @@ void MainWindow::hideExtraPayments()
     ui->label_sumInterest->hide();
     ui->label_InterestDifference->hide();
     ui->label_Diff->hide();
+    ui->labelPaymentOffsetTitle->hide();
+    ui->spinBoxPaymentOffset->hide();
 }
 
 //void MainWindow::on_pushButton_clicked(bool checked)
