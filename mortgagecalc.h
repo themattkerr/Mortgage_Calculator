@@ -24,6 +24,7 @@ public:
     void enterOtherMonthlyExpenses(double dOtherMontlyExpenses);
 
     void setDownPaymentCalcFromPercent(bool bCalcFromPercent);
+    void setCalcFromMonthlyPayment(bool b_LockMontlyPayment);
 
 
 
@@ -42,9 +43,12 @@ public:
 
     double getMonthlyTaxPayment();
     double getPrincipalAndInterestMontlyPayment();
-
-    bool getDownPaymentCalcFromPercent();
     double getOtherMontlyExpenses();
+    double getAnnualTaxesAndExpenses();
+    double getLifeOfLoanTaxesAndExpenses();
+
+    bool getDownPaymentCalcFromPercent();  
+    bool getLockMonthlyPayment();
 
     QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount, int nStartExtraPayments, double dRegularExtraPayment, int nStopExtraPayments, QString &strAnualReport, double &dTotalInterestPaid);
     QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount, QString &strAnualReport);
@@ -66,6 +70,7 @@ private:
     double m_dMonthlyInterestRate = 0;
     double m_dMonthyLoanPaymentPandI = 0;
     double m_dMonthyPayment = 0;
+    bool m_bCalcFromMonthlyPayment = false;
 
     double m_dPrice = 0;
 

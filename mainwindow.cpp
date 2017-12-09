@@ -34,7 +34,12 @@ void MainWindow::refreshFields()
     ui->labelPrincipalAndInterest->setText( doubleToCurrency(m_Mort.getPrincipalAndInterestMontlyPayment() , 2, US_DOLLARS  )  ); //<-----------------------------
     ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate() );
     ui->lineEditOtherMonthly->setText( doubleToCurrency( m_Mort.getOtherMontlyExpenses() , 2, US_DOLLARS)  );
-    ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( calcAnualExpenses(), 0, US_DOLLARS) );
+    ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( m_Mort.getAnnualTaxesAndExpenses(), 0, US_DOLLARS) );
+
+    //Save this for another day - Too confusing
+    //ui->labelLifeOfLoanTaxAndExpenses->setText( doubleToCurrency ( m_Mort.getLifeOfLoanTaxesAndExpenses(),0, US_DOLLARS));
+    ui->labelLifeOfLoanTaxAndExpenses->hide();
+    ui->label_LifeOfLoanTitle->hide();
 
     if(m_Mort.getDownPaymentCalcFromPercent())
     {
@@ -95,32 +100,40 @@ void MainWindow::refreshFields()
 
 void MainWindow::on_NumOfYears_valueChanged(int arg1)
 {
-    m_Mort.enterNumOfYears(arg1 );
-    ui->NumOfPayments->setValue(m_Mort.getNumOfPayments()  );
-    refreshFields();
+    if(!bShowTable)
+        on_NumOfYears_editingFinished();
+//    m_Mort.enterNumOfYears(arg1 );
+//    ui->NumOfPayments->setValue(m_Mort.getNumOfPayments()  );
+//    refreshFields();
 }
 
 void MainWindow::on_NumOfPayments_valueChanged(int arg1)
 {
-    m_Mort.enterNumOfPayments(arg1 );
-    ui->NumOfYears->setValue(m_Mort.getNumOfYears() );
-    refreshFields();
+    if(!bShowTable)
+        on_NumOfPayments_editingFinished();
+
+//    m_Mort.enterNumOfPayments(arg1 );
+//    ui->NumOfYears->setValue(m_Mort.getNumOfYears() );
+//    refreshFields();
 }
 
 void MainWindow::on_lineEdit_textChanged(const QString &arg1)
 {
-     double dTemp = usDollarsStringToDouble(arg1);
-     m_Mort.enterPrincipal(dTemp);
-     ui->lineEdit->setText( doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ) );
-     refreshFields();
+    if(!bShowTable)
+        on_lineEdit_editingFinished();
+//     double dTemp = usDollarsStringToDouble(arg1);
+//     m_Mort.enterPrincipal(dTemp);
+//     ui->lineEdit->setText( doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ) );
+//     refreshFields();
 }
 
 void MainWindow::on_InterestRate_valueChanged(double arg1)
 {
-
-        double dTemp = arg1 / 100;
-        m_Mort.enterAnualInterestRate(dTemp);
-        refreshFields();
+    if(!bShowTable)
+        on_InterestRate_editingFinished();
+//        double dTemp = arg1 / 100;
+//        m_Mort.enterAnualInterestRate(dTemp);
+//        refreshFields();
 }
 
 void MainWindow::on_InterestRate_editingFinished()
@@ -145,23 +158,30 @@ void MainWindow::on_lineEditMonthlyPayment_editingFinished()
 
 void MainWindow::on_lineEditDownPayment_textChanged(const QString &arg1)
 {
-    double dTemp = usDollarsStringToDouble(arg1);
-    m_Mort.enterDownPaymentDollars(dTemp);
-    refreshFields();
+    if(!bShowTable)
+        on_lineEditDownPayment_editingFinished();
+
+//    double dTemp = usDollarsStringToDouble(arg1);
+//    m_Mort.enterDownPaymentDollars(dTemp);
+//    refreshFields();
 }
 
 void MainWindow::on_lineEditPrice_textChanged(const QString &arg1)
 {
-    double dTemp = usDollarsStringToDouble( arg1);
-    m_Mort.enterPrice(dTemp);
-    refreshFields();
+    if(!bShowTable)
+        on_lineEditPrice_editingFinished();
+//    double dTemp = usDollarsStringToDouble( arg1);
+//    m_Mort.enterPrice(dTemp);
+//    refreshFields();
 }
 
 void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1)
 {
-    double dTemp = arg1 / 100;
-    m_Mort.enterDownPaymentPercent(dTemp);
-    refreshFields();
+    if(!bShowTable)
+        on_doubleSpinBoxDownPaymentPercent_editingFinished();
+//    double dTemp = arg1 / 100;
+//    m_Mort.enterDownPaymentPercent(dTemp);
+//    refreshFields();
 }
 
 //void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
@@ -194,12 +214,12 @@ void MainWindow::on_lineEditOtherMonthly_editingFinished()
     refreshFields();
 }
 
- double MainWindow::calcAnualExpenses()
- {
-     int const nNumOfMonthsInYear = 12;
-     double dTemp = (m_Mort.getMonthlyTaxPayment()*nNumOfMonthsInYear) + (m_Mort.getOtherMontlyExpenses()*nNumOfMonthsInYear) ;
-     return dTemp;
- }
+// double MainWindow::calcAnualExpenses()
+// {
+//     int const nNumOfMonthsInYear = 12;
+//     double dTemp = (m_Mort.getMonthlyTaxPayment()*nNumOfMonthsInYear) + (m_Mort.getOtherMontlyExpenses()*nNumOfMonthsInYear) ;
+//     return dTemp;
+// }
 
 void MainWindow::on_lineEditExtraPayAmount_editingFinished()
 {
@@ -326,17 +346,99 @@ void MainWindow::on_spinBoxRecurringExtraStartPoint_valueChanged(int arg1)
 {
     if(ui->spinBoxRecurringExtraStop->value() < arg1)
         ui->spinBoxRecurringExtraStop->setValue(arg1);
-    refreshFields();
+    if(!bShowTable)
+        on_spinBoxRecurringExtraStartPoint_editingFinished();
+//    refreshFields();
 }
 
 void MainWindow::on_spinBoxRecurringExtraStop_valueChanged(int arg1)
 {
     if(ui->spinBoxRecurringExtraStartPoint->value() > arg1)
         ui->spinBoxRecurringExtraStartPoint->setValue(arg1);
-    refreshFields();
+//    refreshFields();
+    if(!bShowTable)
+        on_spinBoxRecurringExtraStop_editingFinished();
 }
 
 void MainWindow::on_lineEditRecurringExtraAmount_editingFinished()
+{
+    refreshFields();
+}
+
+void MainWindow::on_checkBoxCalcFromMonthlyPayment_clicked(bool checked)
+{
+    m_Mort.setCalcFromMonthlyPayment(checked);
+}
+
+void MainWindow::on_spinBoxExtraPaymentNum_valueChanged(int arg1)
+{
+    if(!bShowTable)
+        on_spinBoxExtraPaymentNum_editingFinished();
+    //refreshFields();
+}
+
+void MainWindow::on_lineEditPrice_editingFinished()
+{
+    //if(bShowTable)
+    {
+        double dTemp = usDollarsStringToDouble( ui->lineEditPrice->text());
+        m_Mort.enterPrice(dTemp);
+        refreshFields();
+    }
+}
+
+void MainWindow::on_doubleSpinBoxDownPaymentPercent_editingFinished()
+{
+    double arg1 = ui->doubleSpinBoxDownPaymentPercent->value();
+    double dTemp = arg1 / 100;
+    m_Mort.enterDownPaymentPercent(dTemp);
+    refreshFields();
+}
+
+void MainWindow::on_lineEditDownPayment_editingFinished()
+{
+    QString arg1 = ui->lineEditDownPayment->text();
+    double dTemp = usDollarsStringToDouble(arg1);
+    m_Mort.enterDownPaymentDollars(dTemp);
+    refreshFields();
+}
+
+void MainWindow::on_lineEdit_editingFinished()
+{
+    QString arg1 = ui->lineEdit->text();
+    double dTemp = usDollarsStringToDouble(arg1);
+    m_Mort.enterPrincipal(dTemp);
+    ui->lineEdit->setText( doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ) );
+    refreshFields();
+}
+
+void MainWindow::on_NumOfYears_editingFinished()
+{
+    int arg1 = ui->NumOfYears->value();
+    m_Mort.enterNumOfYears(arg1 );
+    ui->NumOfPayments->setValue(m_Mort.getNumOfPayments()  );
+    refreshFields();
+}
+
+void MainWindow::on_NumOfPayments_editingFinished()
+{
+    int arg1 = ui->NumOfPayments->value();
+    m_Mort.enterNumOfPayments(arg1 );
+    ui->NumOfYears->setValue(m_Mort.getNumOfYears() );
+    refreshFields();
+}
+
+void MainWindow::on_spinBoxExtraPaymentNum_editingFinished()
+{
+    refreshFields();
+}
+
+void MainWindow::on_spinBoxRecurringExtraStartPoint_editingFinished()
+{
+    refreshFields();
+}
+
+void MainWindow::on_spinBoxRecurringExtraStop_editingFinished()
 {
     refreshFields();
 }

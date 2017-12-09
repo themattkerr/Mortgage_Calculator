@@ -518,7 +518,7 @@ void swapChar(QChar &cA, QChar &cB)
 
 QString drawLine()
 {
-    int nDefaultLength = 60;
+    int nDefaultLength = 73;
     int nDefaultChar = '_';
     return drawLine(nDefaultLength, nDefaultChar);
 }
@@ -529,4 +529,24 @@ QString drawLine(int nLength, char chCharToUse)
     for(int iii = 1; iii <= nLength; iii++)
         strLine.append(chCharToUse);
     return strLine;
+}
+
+QString spaceOut(QString strInput)
+{
+    int nDefaultSpacing = 20;
+    char chDefaultChar = '-';
+    return spaceOut(strInput,nDefaultSpacing,chDefaultChar);
+}
+
+QString spaceOut(QString strInput, int nNumOfChars, int chCharToUse)
+{
+    QString strOutput = strInput;
+    int nLengthOfInputString = strInput.length();
+    if(nLengthOfInputString > nNumOfChars)
+        return "Error Too Long";
+    for(int iii = nLengthOfInputString; iii <= nNumOfChars; iii++)
+    {
+        strOutput.append(chCharToUse);
+    }
+    return strOutput;
 }

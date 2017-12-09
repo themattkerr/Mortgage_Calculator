@@ -28,7 +28,8 @@ void MortgageCalc::calcMonthlyLoanPaymentPandI()
     }
     else
     {
-        m_dMonthyLoanPaymentPandI = 0;
+        if(!m_bCalcFromMonthlyPayment)
+            m_dMonthyLoanPaymentPandI = 0;
     }
     return;
 }
@@ -88,7 +89,8 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
  void MortgageCalc::calcPriceFromMontlyPayment()
  {
     //This is used if a percentage for downpayment is entered
-     if(m_nNumOfPayments > 0 &&
+     if(m_dMonthyPayment > 0 &&
+       m_nNumOfPayments > 0 &&
        m_dMonthlyInterestRate > 0 &&
        //m_dDownPaymentPercent > 0 &&
        m_dMillRate > 0 &&
@@ -109,7 +111,8 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
             m_dPrincipal = m_dPrice;
      }
     //This is used to calculate if an explicite downpaynent amount is entered
-    else if(m_nNumOfPayments > 0 &&
+    else if(m_dMonthyPayment > 0 &&
+       m_nNumOfPayments > 0 &&
        m_dMonthlyInterestRate > 0 &&
        m_dMillRate > 0 &&
        m_bDownpaymentEnteredAsPercent == false)
@@ -145,6 +148,10 @@ void MortgageCalc::calcMontlyTax()
 
 void MortgageCalc::refreshData()
 {
+    if(m_bCalcFromMonthlyPayment)
+    {
+        calcPriceFromMontlyPayment();
+    }
     if (m_bDownpaymentEnteredAsPercent)
         calcDownPaymentDollars();
     else
@@ -154,6 +161,7 @@ void MortgageCalc::refreshData()
     { m_dPrincipal = m_dPrice - m_dDownPayment; }
     if (m_dPrice > 0 && m_dDownPaymentPercent > 0 && m_bDownpaymentEnteredAsPercent == true)
     { m_dPrincipal =  roundDoubleToPoints( m_dPrice - (m_dPrice * m_dDownPaymentPercent),0) ; }
+
 
 
     calcMonthlyLoanPaymentPandI();
@@ -251,38 +259,55 @@ void MortgageCalc::setDownPaymentCalcFromPercent(bool bCalcFromPercent)
     m_bDownpaymentEnteredAsPercent = bCalcFromPercent;
     refreshData();
 }
-
+void MortgageCalc::setCalcFromMonthlyPayment(bool b_LockMontlyPayment)
+{
+    m_bCalcFromMonthlyPayment = b_LockMontlyPayment;
+}
 
 // ------Public Get Functions --------------------------------
 
 double MortgageCalc::getPrincipal()
 {
     refreshData();
+    if(m_dPrincipal < 0)
+        return 0;
     return m_dPrincipal;
 }
 
 int MortgageCalc::getNumOfYears()
 {
     refreshData();
+    if(m_nNumOfYears < 0)
+        return 0;
     return m_nNumOfYears;
 }
 
 int MortgageCalc::getNumOfPayments()
 {
     refreshData();
+    if( m_nNumOfPayments < 0)
+        return 0;
     return m_nNumOfPayments;
 }
 
 double MortgageCalc::getAnualInterestRate()
 {
     refreshData();
+    if(m_dAnualInterestRate < 0)
+        return 0;
+
     return m_dAnualInterestRate;
 }
 
 double MortgageCalc::getMonthlyPayment()
 {
     refreshData();
-    return m_dMonthyLoanPaymentPandI + m_dMonthlyTaxPayment + m_dOtherMontlyExpenses;
+    double dTemp = m_dMonthyLoanPaymentPandI + m_dMonthlyTaxPayment + m_dOtherMontlyExpenses;
+    if(dTemp < 0)
+        return 0;
+    if(m_bCalcFromMonthlyPayment && m_dPrincipal <= 0 )
+        return m_dMonthyPayment; //this is entered in enterMonltyPayment function
+    return dTemp;
 }
 
 double MortgageCalc::getInterestPaid()
@@ -296,33 +321,45 @@ double MortgageCalc::getInterestPaid()
 double MortgageCalc::getPrice()
 {
     refreshData();
+    if(m_dPrice < 0)
+        return 0;
     return m_dPrice;
 }
 
 double MortgageCalc::getMillRate()
 {
-      return m_dMillRate;
+    if(m_dMillRate < 0)
+        return 0;
+    return m_dMillRate;
 }
 
 double MortgageCalc::getDownPaymentDollars()
 {
     refreshData();
+    if(m_dDownPayment < 0)
+        return 0;
     return m_dDownPayment;
 }
 
 double MortgageCalc::getDownPaymentPercent()
 {
     refreshData();
+    if(m_dDownPaymentPercent < 0 )
+        return 0;
     return m_dDownPaymentPercent;
 }
 
 double MortgageCalc::getMonthlyTaxPayment()
 {
+    if(m_dMonthlyTaxPayment < 0)
+        return 0;
     return m_dMonthlyTaxPayment;
 }
 
 double MortgageCalc::getPrincipalAndInterestMontlyPayment()
 {
+    if(m_dMonthyLoanPaymentPandI < 0)
+        return 0;
     return m_dMonthyLoanPaymentPandI;
 }
 
@@ -333,6 +370,16 @@ bool MortgageCalc::getDownPaymentCalcFromPercent()
 double MortgageCalc::getOtherMontlyExpenses()
 {
     return m_dOtherMontlyExpenses;
+}
+double MortgageCalc::getAnnualTaxesAndExpenses()
+{
+  double dTemp = nNumberOfMonthsInAYear*(m_dMonthlyTaxPayment +  m_dOtherMontlyExpenses );
+  return dTemp;
+}
+
+double MortgageCalc::getLifeOfLoanTaxesAndExpenses()
+{
+    return (m_nNumOfPayments*(m_dMonthlyTaxPayment + m_dOtherMontlyExpenses));
 }
 
 QString MortgageCalc::getAmortizationSchedule()
@@ -372,11 +419,12 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
                                               QString &strAnualReport,
                                               double &dTotalInterestPaid)
 {
-    QString strSpace = " --- "; strSpace.append("\t");
+    //QString strSpace = " --- "; strSpace.append("\t");
     QString strReportOutput = "";
-        strReportOutput.append("Payment").append(strSpace)
-                .append("Remaining").append(strSpace)
-                .append("Principal").append(strSpace)
+    //QString strPayment = spaceOut("Payment");
+        strReportOutput.append(spaceOut("Payment"))//.append(strSpace)
+                .append(spaceOut("Remaining"))//.append(strSpace)
+                .append(spaceOut("Principal"))//.append(strSpace)
                 .append("Interest")
                 .append("\n");
 
@@ -392,7 +440,8 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
 
     for(int nPaymentNum = 1; nPaymentNum <= m_nNumOfPayments; nPaymentNum++)
     {
-        strReportOutput.append(QString::number(nPaymentNum)).append(strSpace).append(strSpace);
+        strReportOutput.append(spaceOut(QString::number(nPaymentNum)));//.append(strSpace).append(strSpace);
+
         dCurrentIntrestPayment = dCurrentPrincipal * m_dMonthlyInterestRate;
         dCurrentPrincipal = dCurrentPrincipal + dCurrentIntrestPayment;
         dCurrentPrincipalPayment =  m_dMonthyLoanPaymentPandI - dCurrentIntrestPayment;
@@ -421,10 +470,11 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
         dAnualInterestPayed = dAnualInterestPayed + dCurrentIntrestPayment;
         dAnualPrincipalPayed= dAnualPrincipalPayed+ dCurrentPrincipalPayment;
 
-        strReportOutput.append( doubleToCurrency (dCurrentPrincipal, 2, US_DOLLARS) );
+        strReportOutput.append(spaceOut( doubleToCurrency (dCurrentPrincipal, 2, US_DOLLARS) ) );
+
         if (dCurrentPrincipal > 0)
-            strReportOutput.append(strSpace)
-                       .append( doubleToCurrency (dCurrentPrincipalPayment, 2, US_DOLLARS) ).append(strSpace)
+            strReportOutput//.append(strSpace)
+                       .append( spaceOut(doubleToCurrency (dCurrentPrincipalPayment, 2, US_DOLLARS) ))//.append(strSpace)
                        .append( doubleToCurrency (dCurrentIntrestPayment, 2, US_DOLLARS) );
 
         if (nPaymentNum >= nStartExtraPayments &&
@@ -438,17 +488,24 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
         if( nPaymentNum == nInsertPaymentNum && dAmount > 0 )
          {
             dAnualPrincipalPayed = dAnualPrincipalPayed + dAmount;
-             strReportOutput.append("\t   <---------Extra Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
+             strReportOutput.append("\t   <---------One-Time Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
          }
         strReportOutput.append("\n");
         //Anual report
          if (!(nPaymentNum % nNumberOfMonthsInAYear ))
          {
+             QString strTemp = "";
              strAnualReport.clear(); // <------------------------------------This needs to go if you want an actual anual report
              strAnualReport.append( drawLine() ).append("\n");
-             strAnualReport.append("Year: ").append(QString::number(nYearNum)).append(strSpace);
-             strAnualReport.append("Principal Paid: ").append( doubleToCurrency (dAnualPrincipalPayed, 0, US_DOLLARS) ).append(strSpace);
+             strTemp.append("Year: ").append(QString::number(nYearNum)); //.append(strSpace);
+             strAnualReport.append(spaceOut(strTemp));
+
+             strTemp.clear();
+             strTemp.append("Principal Paid: ").append( doubleToCurrency (dAnualPrincipalPayed, 0, US_DOLLARS) );//.append(strSpace);
+             strAnualReport.append(spaceOut(strTemp,27,'-'));
+
              strAnualReport.append("Interest Paid: ").append( doubleToCurrency(dAnualInterestPayed, 0, US_DOLLARS ) );
+
              strAnualReport.append("\n");
              strAnualReport.append( drawLine() ).append("\n");
 

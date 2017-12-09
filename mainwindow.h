@@ -39,7 +39,7 @@ private slots:
     void on_lineEditPrice_textChanged(const QString &arg1);
 
     void on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1);
-
+    void on_doubleSpinBoxDownPaymentPercent_editingFinished();
 //    void on_doubleSpinBoxMillRate_valueChanged(double arg1);
 
     //void on_checkBox_clicked();
@@ -48,19 +48,12 @@ private slots:
 
     void on_doubleSpinBoxMillRate_editingFinished();
 
-    //void on_lineEditOtherMonthly_selectionChanged();
-
-    //void on_lineEditOtherMonthly_textChanged(const QString &arg1);
 
     void on_lineEditOtherMonthly_editingFinished();
 
     void on_lineEditExtraPayAmount_editingFinished();
 
-//    void on_pushButtonInsert_clicked();
 
-//    void on_pushButton_toggled(bool checked);
-
-//    void on_pushButton_clicked(bool checked);
 
     void on_actionShow_Amortization_Shedule_toggled(bool arg1);
 
@@ -68,7 +61,7 @@ private slots:
 
     void on_actionShow_Extra_Payments_toggled(bool arg1);
 
-//    void on_actionShow_Extra_Payments_triggered(bool checked);
+
 
     void on_pushButtonClearExtraPayments_clicked();
 
@@ -78,6 +71,28 @@ private slots:
 
     void on_lineEditRecurringExtraAmount_editingFinished();
 
+    void on_checkBoxCalcFromMonthlyPayment_clicked(bool checked);
+
+    void on_spinBoxExtraPaymentNum_valueChanged(int arg1);
+
+    void on_lineEditPrice_editingFinished();
+
+
+
+    void on_lineEditDownPayment_editingFinished();
+
+    void on_lineEdit_editingFinished();
+
+    void on_NumOfYears_editingFinished();
+
+    void on_NumOfPayments_editingFinished();
+
+    void on_spinBoxExtraPaymentNum_editingFinished();
+
+    void on_spinBoxRecurringExtraStartPoint_editingFinished();
+
+    void on_spinBoxRecurringExtraStop_editingFinished();
+
 private:
     Ui::MainWindow *ui;
 
@@ -85,7 +100,7 @@ private:
 
     double m_dTotalIntrestPaid = 0;
 
-    double calcAnualExpenses();
+//    double calcAnualExpenses();
 
     void showAmortizationSchedule();
     void hideAmortizationSchedule();  

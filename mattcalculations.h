@@ -1,7 +1,7 @@
 #ifndef MATTCALCULATIONS
 #define MATTCALCULATIONS
 
-#define VERSION_OF_MATTCALCULATIONS "1.2.5" //11/19/2017
+#define VERSION_OF_MATTCALCULATIONS "1.2.6" //12/09/2017
 
 #include <qstring.h>
 #include <QDate>
@@ -59,7 +59,8 @@ void swapChar(QChar &cA, QChar &cB);
 QString drawLine();
 QString drawLine(int nLength, char chCharToUse);
 
-
+QString spaceOut(QString strInput);
+QString spaceOut(QString strInput, int nNumOfChars, int chCharToUse);
 
 #endif // MATTCALCULATIONS
 
