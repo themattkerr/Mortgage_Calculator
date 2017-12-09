@@ -388,13 +388,13 @@ QString MortgageCalc::getAmortizationSchedule()
     return getAmortizationSchedule(nTempUnused, nTempUnused);
 }
 
-QString MortgageCalc::getAmortizationSchedule(int nStartExtraPayments, double dRegularExtraPayment, int nStopExtraPayments)
+QString MortgageCalc::getAmortizationSchedule(int nStartExtraPayments, double dRegularExtraPayment, int nStopExtraPayments, int nPaymentOffset)
 {
     QString strTemp;
     int nTempUnused = 0;
     double dTempUnused = 0;
 
-    return getAmortizationSchedule(nTempUnused, dTempUnused, nStartExtraPayments,  dRegularExtraPayment, nStopExtraPayments,  strTemp, dTempUnused );
+    return getAmortizationSchedule(nTempUnused, dTempUnused, nStartExtraPayments,  dRegularExtraPayment, nStopExtraPayments, nPaymentOffset, strTemp, dTempUnused );
 }
 
 QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmount)
@@ -408,7 +408,7 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum, double dAmo
     double dTempUnused = 0;
     double dTempRegularExtraPayment = 0;
     int nTemp = 0;
-    return getAmortizationSchedule(nInsertPaymentNum, dAmount, nTemp, dTempRegularExtraPayment, nTemp, strAnualReport, dTempUnused);
+    return getAmortizationSchedule(nInsertPaymentNum, dAmount, nTemp, dTempRegularExtraPayment, nTemp,nTemp, strAnualReport, dTempUnused);
 }
 
 QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
@@ -416,6 +416,7 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
                                               int nStartExtraPayments,
                                               double dRegularExtraPayment,
                                               int nStopExtraPayments,
+                                              int nPaymentOffset,
                                               QString &strAnualReport,
                                               double &dTotalInterestPaid)
 {
@@ -436,7 +437,7 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
     double dAnualInterestPayed = 0;
     double dAnualPrincipalPayed = 0;
     dTotalInterestPaid = 0;
-
+    int nRecurringPaymentIndex = 0;
 
     for(int nPaymentNum = 1; nPaymentNum <= m_nNumOfPayments; nPaymentNum++)
     {
@@ -451,8 +452,13 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
         {
             dCurrentPrincipal = dCurrentPrincipal - dAmount;
         }
+        //recurring payment here:
         if (nPaymentNum >= nStartExtraPayments && nPaymentNum <= nStopExtraPayments && nStartExtraPayments > 0  )
-            dCurrentPrincipal = dCurrentPrincipal - dRegularExtraPayment;
+        {
+            //nRecurringPaymentIndex++;
+            if( !(nRecurringPaymentIndex % nPaymentOffset ))
+                dCurrentPrincipal = dCurrentPrincipal - dRegularExtraPayment;
+        }
 
         if( dCurrentIntrestPayment < 0 )
             dCurrentIntrestPayment = 0;
@@ -482,13 +488,20 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
                 nStartExtraPayments > 0 &&
                 dRegularExtraPayment > 0 &&
                 dCurrentPrincipal > 0   )
+        {
 
-            strReportOutput.append("  <-- Extra: ").append( doubleToCurrency ( dRegularExtraPayment,2, US_DOLLARS ) );
+            if( !(nRecurringPaymentIndex % nPaymentOffset ))
+            {
+                strReportOutput.append("  <-- Extra: ").append( doubleToCurrency ( dRegularExtraPayment,2, US_DOLLARS ) );
+
+            }
+            nRecurringPaymentIndex++;
+        }
 
         if( nPaymentNum == nInsertPaymentNum && dAmount > 0 )
          {
             dAnualPrincipalPayed = dAnualPrincipalPayed + dAmount;
-             strReportOutput.append("\t   <---------One-Time Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
+             strReportOutput.append("  <---------One-Time Payment:  \t").append( doubleToCurrency (dAmount,2,US_DOLLARS )  );
          }
         strReportOutput.append("\n");
         //Anual report
@@ -497,7 +510,7 @@ QString MortgageCalc::getAmortizationSchedule(int nInsertPaymentNum,
              QString strTemp = "";
              strAnualReport.clear(); // <------------------------------------This needs to go if you want an actual anual report
              strAnualReport.append( drawLine() ).append("\n");
-             strTemp.append("Year: ").append(QString::number(nYearNum)); //.append(strSpace);
+             strTemp.append("Year: ").append(QString::number(nYearNum)).append(' '); //.append(strSpace);
              strAnualReport.append(spaceOut(strTemp));
 
              strTemp.clear();

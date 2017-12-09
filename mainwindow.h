@@ -93,6 +93,10 @@ private slots:
 
     void on_spinBoxRecurringExtraStop_editingFinished();
 
+    void on_spinBoxPaymentOffset_editingFinished();
+
+    void on_spinBoxPaymentOffset_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 

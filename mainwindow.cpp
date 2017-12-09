@@ -68,17 +68,23 @@ void MainWindow::refreshFields()
     int nStartExtraPayments = ui->spinBoxRecurringExtraStartPoint->value();
     int nStopExtraPayments = ui->spinBoxRecurringExtraStop->value() ;
 
-
-
 //    m_Mort.getNumOfPayments();
     ui->spinBoxExtraPaymentNum->setMaximum(m_Mort.getNumOfPayments());
 
     ui->spinBoxRecurringExtraStop->setMaximum(m_Mort.getNumOfPayments());
     ui->spinBoxRecurringExtraStartPoint->setMaximum(m_Mort.getNumOfPayments());
 
+    int nMaxOffset = (ui->spinBoxRecurringExtraStop->value() - ui->spinBoxRecurringExtraStartPoint->value())/2;
+    if(nMaxOffset)
+        ui->spinBoxPaymentOffset->setMaximum(nMaxOffset);
+    else
+        ui->spinBoxPaymentOffset->setMaximum(1);
+    //ui->spinBoxPaymentOffset->setMinimum(1);
+
     if( bShowExtraPayments || bShowTable )
     {
-    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, strAnualReport, m_dTotalIntrestPaid  );
+    int nPaymentOffset = ui->spinBoxPaymentOffset->value();
+    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, nPaymentOffset, strAnualReport, m_dTotalIntrestPaid  );
     ui->LabelInterestPaid->setText( doubleToCurrency( m_dTotalIntrestPaid , 0, US_DOLLARS) );
     ui->label_InterestDifference ->setText( doubleToCurrency( ( m_Mort.getInterestPaid() - m_dTotalIntrestPaid) , 0, US_DOLLARS) );
     //ui->textBrowser->setText(strReport);
@@ -441,4 +447,15 @@ void MainWindow::on_spinBoxRecurringExtraStartPoint_editingFinished()
 void MainWindow::on_spinBoxRecurringExtraStop_editingFinished()
 {
     refreshFields();
+}
+
+void MainWindow::on_spinBoxPaymentOffset_editingFinished()
+{
+    refreshFields();
+}
+
+void MainWindow::on_spinBoxPaymentOffset_valueChanged(int arg1)
+{
+    if(!bShowTable)
+        on_spinBoxPaymentOffset_editingFinished();
 }
