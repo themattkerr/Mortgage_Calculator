@@ -71,11 +71,13 @@ void MainWindow::refreshFields()
     ui->spinBoxRecurringExtraStop->setMaximum(m_Mort.getNumOfPayments());
     ui->spinBoxRecurringExtraStartPoint->setMaximum(ui->spinBoxRecurringExtraStop->value());
 
+    if( bShowExtraPayments || bShowTable )
+    {
     strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, strAnualReport, m_dTotalIntrestPaid  );
     ui->LabelInterestPaid->setText( doubleToCurrency( m_dTotalIntrestPaid , 0, US_DOLLARS) );
     ui->label_InterestDifference ->setText( doubleToCurrency( ( m_Mort.getInterestPaid() - m_dTotalIntrestPaid) , 0, US_DOLLARS) );
     //ui->textBrowser->setText(strReport);
-
+    }
     if ( bShowTable )
     {
         showAmortizationSchedule();
