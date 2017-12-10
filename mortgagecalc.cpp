@@ -9,6 +9,7 @@ MortgageCalc::MortgageCalc()
 
 // ------Privite Calc Functions -----------------------------
 
+
 void MortgageCalc::calcMonthlyLoanPaymentPandI()
 {
     if ( m_dPrincipal          > 0 &&
@@ -92,8 +93,7 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
      if(m_dMonthyPayment > 0 &&
        m_nNumOfPayments > 0 &&
        m_dMonthlyInterestRate > 0 &&
-       //m_dDownPaymentPercent > 0 &&
-       m_dMillRate > 0 &&
+       //m_dMillRate > 0 &&
        m_bDownpaymentEnteredAsPercent == true)
     {
         double dBotPart1 = 0, dBotPart2 = 0;
@@ -114,7 +114,7 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
     else if(m_dMonthyPayment > 0 &&
        m_nNumOfPayments > 0 &&
        m_dMonthlyInterestRate > 0 &&
-       m_dMillRate > 0 &&
+   //    m_dMillRate > 0 &&
        m_bDownpaymentEnteredAsPercent == false)
     {
 
@@ -135,6 +135,7 @@ void MortgageCalc::calcPrincipalFromPriceAndDownPayment()
     else
     {
         m_dPrice = 0;
+        m_dPrincipal = 0;
     }
  }
 
@@ -264,6 +265,33 @@ void MortgageCalc::setCalcFromMonthlyPayment(bool b_LockMontlyPayment)
     m_bCalcFromMonthlyPayment = b_LockMontlyPayment;
 }
 
+void MortgageCalc::resetDefaults()
+{
+
+     m_dMillRate = 23.9718;
+
+     m_dPrincipal = 0;
+     m_nNumOfYears = 0;
+     m_nNumOfPayments = 0;
+
+     m_dAnualInterestRate = 0;
+     m_dMonthlyInterestRate = 0;
+     m_dMonthyLoanPaymentPandI = 0;
+     m_dMonthyPayment = 0;
+     m_bCalcFromMonthlyPayment = false;
+
+     m_dPrice = 0;
+
+     m_dDownPayment = 0;
+     m_dDownPaymentPercent =0;
+     m_bDownpaymentEnteredAsPercent = false;
+
+     m_dMonthlyTaxPayment = 0;
+     m_dOtherMontlyExpenses = 0;
+
+     refreshData();
+}
+
 // ------Public Get Functions --------------------------------
 
 double MortgageCalc::getPrincipal()
@@ -380,6 +408,11 @@ double MortgageCalc::getAnnualTaxesAndExpenses()
 double MortgageCalc::getLifeOfLoanTaxesAndExpenses()
 {
     return (m_nNumOfPayments*(m_dMonthlyTaxPayment + m_dOtherMontlyExpenses));
+}
+bool MortgageCalc::getCalcFromMontlyPayment()
+{
+    return m_bCalcFromMonthlyPayment;
+
 }
 
 QString MortgageCalc::getAmortizationSchedule()

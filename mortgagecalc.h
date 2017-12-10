@@ -48,7 +48,7 @@ public:
     double getLifeOfLoanTaxesAndExpenses();
 
     bool getDownPaymentCalcFromPercent();  
-    bool getLockMonthlyPayment();
+    bool getCalcFromMontlyPayment();
 
     QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount, int nStartExtraPayments, double dRegularExtraPayment, int nStopExtraPayments,int nPaymentOffset, QString &strAnualReport, double &dTotalInterestPaid);
     QString getAmortizationSchedule(int nInsertPaymentNum, double dAmount, QString &strAnualReport);
@@ -56,6 +56,7 @@ public:
     QString getAmortizationSchedule(int nStartExtraPayments, double dRegularExtraPayment, int nStopExtraPayments, int nPaymentOffset);
     QString getAmortizationSchedule();
 
+    void resetDefaults();
 
 private:
     int const nNumberOfMonthsInAYear = 12;

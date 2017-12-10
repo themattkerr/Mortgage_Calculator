@@ -16,13 +16,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::refreshFields()
 {
-
+    if(bShowTitleBlock)
+        ui->lineEdit_TitleBlock->show();
+    else
+        ui->lineEdit_TitleBlock->hide();
+    if(bShowMortgageTerms)
+        showMortgageTerms();
+    else
+        hideMortgageTerms();
 
     ui->lineEditPrice->setText( doubleToCurrency ( m_Mort.getPrice(), 0, US_DOLLARS ) );
     ui->lineEdit->setText(doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ));
 
     ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS ) );
     ui->AmountofInterest->setText( doubleToCurrency (m_Mort.getInterestPaid(), 0, US_DOLLARS)    );
+
 
 
     ui->lineEditDownPayment->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
@@ -43,19 +51,31 @@ void MainWindow::refreshFields()
 
     if(m_Mort.getDownPaymentCalcFromPercent())
     {
-        ui->doubleSpinBoxDownPaymentPercent->show();
+        ui->checkBox->setChecked(true);
         ui->lineEditDownPayment->hide();
         ui->labelDownPaymentPercent->hide();
-        ui->labelDownPayment->show();
+        if(bShowMortgageTerms)
+        {
+            ui->doubleSpinBoxDownPaymentPercent->show();
+            ui->labelDownPayment->show();
+        }
 
     }
     else
     {
+        ui->checkBox->setChecked(false);
         ui->doubleSpinBoxDownPaymentPercent->hide();
-        ui->lineEditDownPayment->show();
-        ui->labelDownPaymentPercent->show();
         ui->labelDownPayment->hide();
+        if(bShowMortgageTerms)
+        {
+            ui->lineEditDownPayment->show();
+            ui->labelDownPaymentPercent->show();
+        }
+
+
     }
+
+    ui->checkBoxCalcFromMonthlyPayment->setChecked(m_Mort.getCalcFromMontlyPayment() );
 
     ui->textBrowser->clear();
     QString strReport;
@@ -262,6 +282,86 @@ void MainWindow::hideAmortizationSchedule()
 
 }
 
+void MainWindow::showMortgageTerms()
+{
+    //ui->label->show(); principal
+    ui->checkBox->show();//DP calc %
+    ui->checkBoxCalcFromMonthlyPayment->show();
+    ui->labelDownPayment->show();
+    ui->labelDownPaymentPercent->show();
+    ui->labelAnualCostsAndTaxes->show();
+    ui->labelMontlyTax->show();
+    ui->labelPrincipalAndInterest->show();
+    ui->labelDownPaymentPercent->show();
+
+    ui->label_2->show();
+    ui->label_3->show();
+    ui->label_4->show();
+    //ui->label_5->show();
+    //ui->label_6->show();
+    ui->label_7->show();
+    ui->label_8->show();
+    ui->label_10->show();
+
+    ui->label_11->show();
+    ui->label_12->show();
+    ui->label_13->show();
+    ui->label_14->show();
+    ui->label_15->show();
+
+    ui->lineEditPrice->show();
+    //ui->lineEdit->show();
+    ui->lineEditDownPayment->show();
+    ui->lineEditOtherMonthly->show();
+    ui->doubleSpinBoxDownPaymentPercent->show();
+    ui->doubleSpinBoxMillRate->show();
+    ui->NumOfYears->show();
+    ui->NumOfPayments->show();
+    ui->InterestRate->show();
+
+
+
+}
+
+void MainWindow::hideMortgageTerms()
+{
+    //ui->label->hide(); principal
+    ui->checkBox->hide();//DP calc %
+    ui->checkBoxCalcFromMonthlyPayment->hide();
+    ui->labelDownPayment->hide();
+    ui->labelDownPaymentPercent->hide();
+    ui->labelAnualCostsAndTaxes->hide();
+    ui->labelMontlyTax->hide();
+    ui->labelPrincipalAndInterest->hide();
+    ui->labelDownPaymentPercent->hide();
+
+    ui->label_2->hide();
+    //ui->label_3->hide();//num of years
+    //ui->label_4->hide();//num of payments
+    //ui->label_5->hide();
+    //ui->label_6->hide();
+    ui->label_7->hide();
+    ui->label_8->hide();
+    ui->label_10->hide();
+
+    ui->label_11->hide();
+    ui->label_12->hide();
+    ui->label_13->hide();
+    ui->label_14->hide();
+    ui->label_15->hide();
+
+    ui->lineEditPrice->hide();
+    //ui->lineEdit->hide();
+    ui->lineEditDownPayment->hide();
+    ui->lineEditOtherMonthly->hide();
+    ui->doubleSpinBoxDownPaymentPercent->hide();
+    ui->doubleSpinBoxMillRate->hide();
+    //ui->NumOfYears->hide();
+    //ui->NumOfPayments->hide();
+    ui->InterestRate->hide();
+
+}
+
 void MainWindow::showExtraPayments()
 {
     ui->lineEditExtraPayAmount->show();
@@ -310,6 +410,8 @@ void MainWindow::hideExtraPayments()
     ui->spinBoxPaymentOffset->hide();
 }
 
+
+
 //void MainWindow::on_pushButton_clicked(bool checked)
 //{
 //    if(bShowTable)
@@ -331,13 +433,13 @@ void MainWindow::on_actionShow_Extra_Payments_toggled(bool arg1)
     refreshFields();
 }
 
-void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
-{
-    if(arg1 == "")
-        this->setWindowTitle("Mode RN - Mortgage Calculator");
-    else
-        this->setWindowTitle(arg1);
-}
+//void MainWindow::on_lineEdit_2_textChanged(const QString &arg1)
+//{
+//    if(arg1 == "")
+//        this->setWindowTitle("Mode RN - Mortgage Calculator");
+//    else
+//        this->setWindowTitle(arg1);
+//}
 
 
 
@@ -462,4 +564,52 @@ void MainWindow::on_spinBoxPaymentOffset_valueChanged(int arg1)
 {
     if(!bShowTable)
         on_spinBoxPaymentOffset_editingFinished();
+}
+
+void MainWindow::on_actionTitle_Block_toggled(bool arg1)
+{
+    bShowTitleBlock = arg1;
+    refreshFields();
+}
+
+//void MainWindow::on_lineEdit_TitleBlock_editingFinished()
+//{
+
+//}
+
+void MainWindow::on_lineEdit_TitleBlock_textChanged(const QString &arg1)
+{
+    if(arg1 == "")
+        this->setWindowTitle("Mode RN - Mortgage Calculator");
+    else
+        this->setWindowTitle(arg1);
+}
+
+void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
+{
+    if(!bShowTable)
+        on_doubleSpinBoxMillRate_editingFinished();
+}
+
+void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
+{
+    //if(!bShowTable && m_Mort.getCalcFromMontlyPayment() )// Doesn't work because of Decimals in the string.
+        //on_lineEditMonthlyPayment_editingFinished();
+}
+
+void MainWindow::on_actionReset_All_triggered()
+{
+    m_Mort.resetDefaults();
+    ui->lineEdit_TitleBlock->clear();
+    ui->NumOfPayments->setValue(m_Mort.getNumOfPayments() );
+    ui->NumOfYears->setValue(m_Mort.getNumOfYears());// <---------------------
+    ui->InterestRate->setValue(m_Mort.getAnualInterestRate()  );
+    on_pushButtonClearExtraPayments_clicked();
+    //refreshFields(); <- done by clear extra payments
+}
+
+void MainWindow::on_actionShow_Mortgage_Terms_toggled(bool arg1)
+{
+   bShowMortgageTerms = arg1;
+    refreshFields();
 }

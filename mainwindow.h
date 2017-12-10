@@ -55,7 +55,7 @@ private slots:
 
     void on_actionShow_Amortization_Shedule_toggled(bool arg1);
 
-    void on_lineEdit_2_textChanged(const QString &arg1);
+//    void on_lineEdit_2_textChanged(const QString &arg1);
 
     void on_actionShow_Extra_Payments_toggled(bool arg1);
 
@@ -95,6 +95,20 @@ private slots:
 
     void on_spinBoxPaymentOffset_valueChanged(int arg1);
 
+    void on_actionTitle_Block_toggled(bool arg1);
+
+//    void on_lineEdit_TitleBlock_editingFinished();
+
+    void on_lineEdit_TitleBlock_textChanged(const QString &arg1);
+
+    void on_doubleSpinBoxMillRate_valueChanged(double arg1);
+
+    void on_lineEditMonthlyPayment_textChanged(const QString &arg1);
+
+    void on_actionReset_All_triggered();
+
+    void on_actionShow_Mortgage_Terms_toggled(bool arg1);
+
 private:
     Ui::MainWindow *ui;
 
@@ -103,6 +117,11 @@ private:
     double m_dTotalIntrestPaid = 0;
 
 //    double calcAnualExpenses();
+    bool bShowTitleBlock = false;
+
+    void showMortgageTerms();
+    void hideMortgageTerms();
+    bool bShowMortgageTerms = true;
 
     void showAmortizationSchedule();
     void hideAmortizationSchedule();  
