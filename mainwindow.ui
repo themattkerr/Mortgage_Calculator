@@ -575,7 +575,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Annual Taxes and Costs: </string>
+       <string>Taxes and Costs / Yr: </string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
