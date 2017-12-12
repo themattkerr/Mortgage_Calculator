@@ -208,6 +208,7 @@ void MainWindow::showAmortizationSchedule()
     ui->lineAmortizationTable->show();
 
 
+
 }
 void MainWindow::hideAmortizationSchedule()
 {
@@ -414,6 +415,10 @@ void MainWindow::on_doubleSpinBoxDownPaymentPercent_editingFinished()
 {
     double arg1 = ui->doubleSpinBoxDownPaymentPercent->value();
     double dTemp = arg1 / 100;
+    if(arg1 == 0)
+    {
+        m_Mort.enterPrincipal(usDollarsStringToDouble( ui->lineEditPrice->text() ));
+    }
     m_Mort.enterDownPaymentPercent(dTemp);
     refreshFields();
 }
@@ -423,6 +428,12 @@ void MainWindow::on_lineEditDownPayment_editingFinished()
     QString arg1 = ui->lineEditDownPayment->text();
     double dTemp = usDollarsStringToDouble(arg1);
     m_Mort.enterDownPaymentDollars(dTemp);
+    if(dTemp == 0)
+    {
+        m_Mort.enterPrincipal(usDollarsStringToDouble( ui->lineEditPrice->text() ));
+    }
+
+
     refreshFields();
 }
 
