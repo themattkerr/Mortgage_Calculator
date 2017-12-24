@@ -114,6 +114,9 @@
     </item>
     <item row="4" column="1">
      <widget class="QDoubleSpinBox" name="InterestRate">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="decimals">
        <number>3</number>
       </property>
@@ -339,6 +342,9 @@
        <widget class="QDoubleSpinBox" name="doubleSpinBoxDownPaymentPercent">
         <property name="decimals">
          <number>1</number>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
        </widget>
       </item>
@@ -638,6 +644,8 @@
     </property>
     <addaction name="actionTitle_Block"/>
     <addaction name="actionReset_All"/>
+    <addaction name="actionCalculate_Mill_Rate"/>
+    <addaction name="actionCalculate_Other_Monthly_Expenses"/>
    </widget>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
@@ -683,18 +691,40 @@
     <string>Show Mortgage Terms</string>
    </property>
   </action>
+  <action name="actionCalculate_Mill_Rate">
+   <property name="text">
+    <string>Calculate Mill Rate</string>
+   </property>
+  </action>
+  <action name="actionCalculate_Other_Monthly_Expenses">
+   <property name="text">
+    <string>Calculate Other Monthly Expenses</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>lineEdit_TitleBlock</tabstop>
   <tabstop>lineEditPrice</tabstop>
+  <tabstop>checkBoxCalcFromMonthlyPayment</tabstop>
+  <tabstop>checkBox</tabstop>
   <tabstop>lineEditDownPayment</tabstop>
   <tabstop>doubleSpinBoxDownPaymentPercent</tabstop>
   <tabstop>lineEdit</tabstop>
   <tabstop>InterestRate</tabstop>
   <tabstop>NumOfYears</tabstop>
+  <tabstop>NumOfPayments</tabstop>
+  <tabstop>doubleSpinBoxMillRate</tabstop>
   <tabstop>lineEditOtherMonthly</tabstop>
   <tabstop>lineEditMonthlyPayment</tabstop>
+  <tabstop>spinBoxExtraPaymentNum</tabstop>
+  <tabstop>lineEditExtraPayAmount</tabstop>
+  <tabstop>pushButtonClearExtraPayments</tabstop>
+  <tabstop>spinBoxRecurringExtraStartPoint</tabstop>
+  <tabstop>lineEditRecurringExtraAmount</tabstop>
+  <tabstop>spinBoxRecurringExtraStop</tabstop>
+  <tabstop>spinBoxPaymentOffset</tabstop>
+  <tabstop>lineEdit_TitleBlock</tabstop>
+  <tabstop>textBrowser</tabstop>
  </tabstops>
  <resources/>
  <connections/>

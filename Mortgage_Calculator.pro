@@ -26,10 +26,27 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     mortgagecalc.cpp \
-    mattcalculations.cpp
+    mattcalculations.cpp \
+    calculatemillratedialog.cpp \
+    calculateothermonthlyexpensesdialog.cpp
 
 HEADERS  += mainwindow.h \
     mortgagecalc.h \
-    mattcalculations.h
+    mattcalculations.h \
+    calculatemillratedialog.h \
+    calculateothermonthlyexpensesdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    calculatemillratedialog.ui \
+    calculateothermonthlyexpensesdialog.ui
+
+DISTFILES += \
+    install.nsi \
+    res.rc \
+    Calculator.ico \
+    mortgage1.ico
+
+RC_FILE = res.rc
+
+#QMAKE_POST_LINK += windeployqt \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" --dir \"$$system_path($${_PRO_FILE_PWD_}/Deploy)\"
+#QMAKE_POST_LINK += && $$QMAKE_COPY \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" \"$$system_path($${_PRO_FILE_PWD_}/Deploy/)\"

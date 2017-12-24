@@ -2,8 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "calculatemillratedialog.h"
+#include "calculateothermonthlyexpensesdialog.h"
+
 #include "mortgagecalc.h"
 #include "mattcalculations.h"
+
+#define CURRENT_VERSION "1.1.0"
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +21,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void enterCalculatedMonthlyExpenses(double dMonthlyEpenses);
+    void refreshFields();
+    void updateMillRate();
 
 private slots:
     void on_actionTitle_Block_toggled(bool arg1);
@@ -76,10 +84,19 @@ private slots:
 
 
 
+    void on_doubleSpinBoxMillRate_valueChanged(const QString &arg1);
+
+    void on_actionCalculate_Mill_Rate_triggered();
+
+    void on_actionCalculate_Other_Monthly_Expenses_triggered();
+
 private:
     Ui::MainWindow *ui;
 
     MortgageCalc m_Mort;
+
+     double m_dCalculatedMonthlyExpenses = 0;
+    CalculateOtherMonthlyExpensesDialog  *m_cMontlyCosts = 0 ;
 
     double m_dTotalIntrestPaid = 0;
 
@@ -97,7 +114,7 @@ private:
     void hideExtraPayments();
     bool bShowExtraPayments = false;
 
-    void refreshFields();
+//    void refreshFields();
 
 };
 

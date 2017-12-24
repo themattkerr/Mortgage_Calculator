@@ -6,16 +6,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+//    Qt::WindowFlags flags = this->windowFlags();
+//    this->setWindowFlags(flags|Qt::WindowStaysOnTopHint);
+
+    m_cMontlyCosts = new CalculateOtherMonthlyExpensesDialog(this, &m_dCalculatedMonthlyExpenses);
     refreshFields();
+    ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate());
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_cMontlyCosts;
 }
 
 void MainWindow::refreshFields()
 {
+    //m_Mort.enterOtherMonthlyExpenses(m_dCalculatedMonthlyExpenses);
+
     if(bShowTitleBlock)
         ui->lineEdit_TitleBlock->show();
     else
@@ -28,19 +37,21 @@ void MainWindow::refreshFields()
     ui->lineEditPrice->setText( doubleToCurrency ( m_Mort.getPrice(), 0, US_DOLLARS ) );
     ui->lineEdit->setText(doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ));
 
-    ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS ) );
+    if(!m_Mort.getCalcFromMontlyPayment())
+        ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS ) );
     ui->AmountofInterest->setText( doubleToCurrency (m_Mort.getInterestPaid(), 0, US_DOLLARS)    );
 
 
 
     ui->lineEditDownPayment->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
-    ui->doubleSpinBoxDownPaymentPercent->setValue(m_Mort.getDownPaymentPercent()*100  );
+    if(!m_Mort.getDownPaymentCalcFromPercent())
+        ui->doubleSpinBoxDownPaymentPercent->setValue(m_Mort.getDownPaymentPercent()*100  );
     ui->labelDownPayment ->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
     ui->labelDownPaymentPercent->setText( addCommasToDouble( m_Mort.getDownPaymentPercent()*100, 2 ).append(" %") );
 
     ui->labelMontlyTax->setText( doubleToCurrency (m_Mort.getMonthlyTaxPayment(), 2, US_DOLLARS ) );
     ui->labelPrincipalAndInterest->setText( doubleToCurrency(m_Mort.getPrincipalAndInterestMontlyPayment() , 2, US_DOLLARS  )  ); //<-----------------------------
-    ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate() );
+    //ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate() ); <<<<===================================================================<<<<
     ui->lineEditOtherMonthly->setText( doubleToCurrency( m_Mort.getOtherMontlyExpenses() , 2, US_DOLLARS)  );
     ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( m_Mort.getAnnualTaxesAndExpenses(), 0, US_DOLLARS) );
 
@@ -152,8 +163,9 @@ void MainWindow::on_InterestRate_editingFinished()
 
 void MainWindow::on_lineEditMonthlyPayment_editingFinished()
 {
-    double dTemp = usDollarsStringToDouble(ui->lineEditMonthlyPayment->text());
-    m_Mort.enterMonthlyPayment(dTemp);
+//    double dTemp = usDollarsStringToDouble(ui->lineEditMonthlyPayment->text());
+//    m_Mort.enterMonthlyPayment(dTemp);
+
     refreshFields();
 }
 
@@ -504,29 +516,100 @@ void MainWindow::on_lineEdit_TitleBlock_textChanged(const QString &arg1)
 
 void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
 {
-    if(!bShowTable)
-        on_doubleSpinBoxMillRate_editingFinished();
+
+//    static bool bLiveUpdate;
+//    if(!bShowTable)
+//        if(fabs(m_Mort.getMillRate()-arg1) >= 1  )
+//        {
+//            on_doubleSpinBoxMillRate_editingFinished();
+//        }
+
 }
 
 void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
 {
-    //if(!bShowTable && m_Mort.getCalcFromMontlyPayment() )// Doesn't work because of Decimals in the string.
-        //on_lineEditMonthlyPayment_editingFinished();
+    double dTemp = usDollarsStringToDouble(arg1);
+    QString strTemp = "";
+    int nlength = arg1.length();
+    int nDecPos = arg1.indexOf('.')+1;
+    if (nDecPos <= 0)
+        nDecPos = 1;
+    int nDecimalsToShow = nlength -(nDecPos);
+    if (arg1.indexOf('.') == -1)
+        nDecimalsToShow = 0;
+    if(nDecimalsToShow > 2)
+    {
+        for (int iii = 0; iii < (nlength -1); iii++)
+            strTemp.append(arg1[iii]  );
+        strTemp;
+        nDecimalsToShow =2;
+        dTemp = usDollarsStringToDouble(strTemp);
+    }
+    m_Mort.enterMonthlyPayment(dTemp);
+    if (nlength != nDecPos)
+        ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),nDecimalsToShow , US_DOLLARS ) );
+    if(!bShowTable && m_Mort.getCalcFromMontlyPayment())
+        on_lineEditMonthlyPayment_editingFinished();
 }
 
 void MainWindow::on_actionReset_All_triggered()
 {
     m_Mort.resetDefaults();
+    ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate());
     ui->lineEdit_TitleBlock->clear();
     ui->NumOfPayments->setValue(m_Mort.getNumOfPayments() );
     ui->NumOfYears->setValue(m_Mort.getNumOfYears());// <---------------------
     ui->InterestRate->setValue(m_Mort.getAnualInterestRate()  );
     on_pushButtonClearExtraPayments_clicked();
+    m_cMontlyCosts->resetAll(); ;
+
     //refreshFields(); <- done by clear extra payments
 }
 
 void MainWindow::on_actionShow_Mortgage_Terms_toggled(bool arg1)
 {
    bShowMortgageTerms = arg1;
+    refreshFields();
+}
+
+void MainWindow::on_doubleSpinBoxMillRate_valueChanged(const QString &arg1)
+{
+//        bool *ok = new bool;
+//        static bool bLiveUpdate;
+//        if(arg1 == "")
+//            bLiveUpdate = false;
+
+        if(!bShowTable)
+//            if(fabs(m_Mort.getMillRate()-arg1.toDouble(ok)) >= 1  )
+            {
+                on_doubleSpinBoxMillRate_editingFinished();
+            }
+
+}
+
+void MainWindow::on_actionCalculate_Mill_Rate_triggered()
+{
+    double dMillRate;
+    CalculateMillRateDialog *x = new CalculateMillRateDialog(this, &dMillRate  );
+    x->exec();
+    if(dMillRate != -1 && dMillRate >= 0)
+    {
+        m_Mort.enterMillRate(dMillRate);
+        ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate());
+        refreshFields();
+    }
+    delete x;
+}
+
+
+void MainWindow::on_actionCalculate_Other_Monthly_Expenses_triggered()
+{
+    m_cMontlyCosts->show();
+//    m_Mort.enterOtherMonthlyExpenses(m_dCalculatedMonthlyExpenses);
+//    refreshFields();
+}
+void MainWindow::enterCalculatedMonthlyExpenses(double dMonthlyEpenses)
+{
+    m_Mort.enterOtherMonthlyExpenses(dMonthlyEpenses);
     refreshFields();
 }

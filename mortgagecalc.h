@@ -3,6 +3,8 @@
 
 #include "mattcalculations.h"
 
+#define VERSION_OF_MORTGAGECALC_CLASS "1.0.0_12.22.2017"
+
 class MortgageCalc
 {
 public:

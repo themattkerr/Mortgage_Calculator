@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CalculateOtherMonthlyExpensesDialog</class>
+ <widget class="QDialog" name="CalculateOtherMonthlyExpensesDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>407</width>
+    <height>404</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Calculate Other Montly Expenses</string>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="7" column="2">
+    <widget class="QLineEdit" name="M7_lineEdit"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Condo/HOA Fees</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="M3_lineEdit"/>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLineEdit" name="M4_lineEdit"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Parking</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="2">
+    <widget class="QLineEdit" name="A2_lineEdit"/>
+   </item>
+   <item row="13" column="2">
+    <widget class="QLineEdit" name="A3_lineEdit"/>
+   </item>
+   <item row="5" column="2">
+    <widget class="QLineEdit" name="M5_lineEdit"/>
+   </item>
+   <item row="11" column="2">
+    <widget class="QLineEdit" name="A1_lineEdit"/>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_11">
+     <property name="text">
+      <string>Annual Expenses:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="M2_lineEdit"/>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLineEdit" name="M6_lineEdit"/>
+   </item>
+   <item row="8" column="0" colspan="3">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="0">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>Total Other Montly Expenses:</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="0" colspan="3">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Home Owner's Insurance</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="M1_lineEdit">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>0</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_12">
+     <property name="text">
+      <string>MonthlyExpenses:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="2">
+    <widget class="QLabel" name="totalMontlyExpensesLabel">
+     <property name="text">
+      <string>---</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Private Mortgage Insurence</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="1" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="0">
+    <widget class="QPushButton" name="clearAllPushButton">
+     <property name="text">
+      <string>Clear All</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLineEdit" name="lineEdit_14"/>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLineEdit" name="lineEdit_10"/>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLineEdit" name="lineEdit_13"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLineEdit" name="lineEdit_12"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLineEdit" name="lineEdit_11"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Utilites</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>M1_lineEdit</tabstop>
+  <tabstop>M2_lineEdit</tabstop>
+  <tabstop>M3_lineEdit</tabstop>
+  <tabstop>M4_lineEdit</tabstop>
+  <tabstop>M5_lineEdit</tabstop>
+  <tabstop>lineEdit_11</tabstop>
+  <tabstop>M6_lineEdit</tabstop>
+  <tabstop>lineEdit_12</tabstop>
+  <tabstop>M7_lineEdit</tabstop>
+  <tabstop>lineEdit_13</tabstop>
+  <tabstop>A1_lineEdit</tabstop>
+  <tabstop>lineEdit_10</tabstop>
+  <tabstop>A2_lineEdit</tabstop>
+  <tabstop>lineEdit_14</tabstop>
+  <tabstop>A3_lineEdit</tabstop>
+  <tabstop>clearAllPushButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>CalculateOtherMonthlyExpensesDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>CalculateOtherMonthlyExpensesDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
