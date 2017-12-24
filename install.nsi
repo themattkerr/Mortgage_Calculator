@@ -3,7 +3,7 @@
 !define MUI_ICON "mortgage1.ico"
 !define PRODUCT_PUBLISHER "Matt"
 !define PRODUCT_WEB_SITE "MoveMode.com"
-!define PRODUCT_VERSION "1.1.0"
+!define PRODUCT_VERSION "1.1.1"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\${EXE_NAME}"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"

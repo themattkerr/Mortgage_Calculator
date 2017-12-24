@@ -8,7 +8,7 @@
 #include "mortgagecalc.h"
 #include "mattcalculations.h"
 
-#define CURRENT_VERSION "1.1.0"
+#define CURRENT_VERSION "1.1.1.BETA"
 
 namespace Ui {
 class MainWindow;

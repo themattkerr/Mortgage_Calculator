@@ -528,6 +528,8 @@ void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
 
 void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
 {
+   if(m_Mort.getCalcFromMontlyPayment())
+   {
     double dTemp = usDollarsStringToDouble(arg1);
     QString strTemp = "";
     int nlength = arg1.length();
@@ -550,6 +552,7 @@ void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
         ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),nDecimalsToShow , US_DOLLARS ) );
     if(!bShowTable && m_Mort.getCalcFromMontlyPayment())
         on_lineEditMonthlyPayment_editingFinished();
+   }
 }
 
 void MainWindow::on_actionReset_All_triggered()
