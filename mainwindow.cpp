@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_cMontlyCosts = new CalculateOtherMonthlyExpensesDialog(this, &m_dCalculatedMonthlyExpenses);
     refreshFields();
     ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate());
+    adjustSize();
 }
 
 MainWindow::~MainWindow()
@@ -34,32 +35,73 @@ void MainWindow::refreshFields()
     else
         hideMortgageTerms();
 
-    ui->lineEditPrice->setText( doubleToCurrency ( m_Mort.getPrice(), 0, US_DOLLARS ) );
-    ui->lineEdit->setText(doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ));
-
-    if(!m_Mort.getCalcFromMontlyPayment())
-        ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS ) );
     ui->AmountofInterest->setText( doubleToCurrency (m_Mort.getInterestPaid(), 0, US_DOLLARS)    );
-
-
-
-    ui->lineEditDownPayment->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
-    if(!m_Mort.getDownPaymentCalcFromPercent())
-        ui->doubleSpinBoxDownPaymentPercent->setValue(m_Mort.getDownPaymentPercent()*100  );
-    ui->labelDownPayment ->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
-    ui->labelDownPaymentPercent->setText( addCommasToDouble( m_Mort.getDownPaymentPercent()*100, 2 ).append(" %") );
 
     ui->labelMontlyTax->setText( doubleToCurrency (m_Mort.getMonthlyTaxPayment(), 2, US_DOLLARS ) );
     ui->labelPrincipalAndInterest->setText( doubleToCurrency(m_Mort.getPrincipalAndInterestMontlyPayment() , 2, US_DOLLARS  )  ); //<-----------------------------
-    //ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate() ); <<<<===================================================================<<<<
+
     ui->lineEditOtherMonthly->setText( doubleToCurrency( m_Mort.getOtherMontlyExpenses() , 2, US_DOLLARS)  );
     ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( m_Mort.getAnnualTaxesAndExpenses(), 0, US_DOLLARS) );
 
-    //Save this for another day - Too confusing
-    //ui->labelLifeOfLoanTaxAndExpenses->setText( doubleToCurrency ( m_Mort.getLifeOfLoanTaxesAndExpenses(),0, US_DOLLARS));
     ui->labelLifeOfLoanTaxAndExpenses->hide();
     ui->label_LifeOfLoanTitle->hide();
 
+    int const n_NumberOfMonthsInAYear = 12;
+    ui->labelAnnualTax->setText(doubleToCurrency((m_Mort.getMonthlyTaxPayment()*n_NumberOfMonthsInAYear), 0, US_DOLLARS));
+
+    setupCalcFromPercentGUI(); // The next three functions need to be excuted in this order.  I believe this is due to the later calcultaions of setupCalcFromPercentGUI()
+    setupCalcFromMonthlyPaymentGUI();
+    setupAmortizationTableAndExtraPaymentsGUI();
+
+    //Save this for another day - Too confusing
+    //ui->labelLifeOfLoanTaxAndExpenses->setText( doubleToCurrency ( m_Mort.getLifeOfLoanTaxesAndExpenses(),0, US_DOLLARS));
+}
+
+void MainWindow::setupCalcFromMonthlyPaymentGUI()
+{
+    ui->lineEditPrice->setText( doubleToCurrency ( m_Mort.getPrice(), 0, US_DOLLARS ) );
+    ui->priceLabel->setText(doubleToCurrency ( m_Mort.getPrice(), 0, US_DOLLARS ));
+    ui->lineEdit->setText(doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS ));
+    ui->principalLabel->setText(doubleToCurrency(m_Mort.getPrincipal(),0,US_DOLLARS )  );
+
+    if(!m_Mort.getCalcFromMontlyPayment())
+        ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS ) );
+    ui->monthlyPaymentLabel->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),2 , US_DOLLARS )  );
+    ui->checkBoxCalcFromMonthlyPayment->setChecked(m_Mort.getCalcFromMontlyPayment() );
+    showOrHideCalcFromMontlyPayment();
+
+}
+ void MainWindow::showOrHideCalcFromMontlyPayment()
+ {
+     if(m_Mort.getCalcFromMontlyPayment())
+     {
+         ui->lineEditPrice->hide();
+         ui->priceLabel->show();
+         ui->lineEdit->hide();
+         ui->principalLabel->show();
+         ui->monthlyPaymentLabel->hide();
+         ui->lineEditMonthlyPayment->show();
+         if(!bShowMortgageTerms)
+             ui->priceLabel->hide();
+
+     }
+     else
+     {
+         ui->lineEditPrice->show();
+         ui->priceLabel->hide();
+         ui->lineEdit->show();
+         ui->principalLabel->hide();
+         ui->monthlyPaymentLabel->show();
+         ui->lineEditMonthlyPayment->hide();
+         if(!bShowMortgageTerms)
+             ui->lineEditPrice->hide();
+     }
+ }
+
+
+
+void MainWindow::setupCalcFromPercentGUI()
+{
     if(m_Mort.getDownPaymentCalcFromPercent())
     {
         ui->checkBox->setChecked(true);
@@ -70,7 +112,6 @@ void MainWindow::refreshFields()
             ui->doubleSpinBoxDownPaymentPercent->show();
             ui->labelDownPayment->show();
         }
-
     }
     else
     {
@@ -82,12 +123,18 @@ void MainWindow::refreshFields()
             ui->lineEditDownPayment->show();
             ui->labelDownPaymentPercent->show();
         }
-
-
     }
 
-    ui->checkBoxCalcFromMonthlyPayment->setChecked(m_Mort.getCalcFromMontlyPayment() );
+    ui->lineEditDownPayment->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
+    if(!m_Mort.getDownPaymentCalcFromPercent())
+        ui->doubleSpinBoxDownPaymentPercent->setValue(m_Mort.getDownPaymentPercent()*100  );
+    ui->labelDownPayment ->setText( doubleToCurrency( m_Mort.getDownPaymentDollars(),0, US_DOLLARS )  );
+    ui->labelDownPaymentPercent->setText( addCommasToDouble( m_Mort.getDownPaymentPercent()*100, 2 ).append(" %") );
+}
 
+
+void MainWindow::setupAmortizationTableAndExtraPaymentsGUI()
+{
     ui->textBrowser->clear();
     QString strReport;
     QString strAnualReport;
@@ -100,9 +147,10 @@ void MainWindow::refreshFields()
     int nStopExtraPayments = ui->spinBoxRecurringExtraStop->value() ;
 
     ui->spinBoxExtraPaymentNum->setMaximum(m_Mort.getNumOfPayments());
-
     ui->spinBoxRecurringExtraStop->setMaximum(m_Mort.getNumOfPayments());
     ui->spinBoxRecurringExtraStartPoint->setMaximum(m_Mort.getNumOfPayments());
+
+
 
     int nMaxOffset = (ui->spinBoxRecurringExtraStop->value() - ui->spinBoxRecurringExtraStartPoint->value())/2;
     if(nMaxOffset)
@@ -112,11 +160,13 @@ void MainWindow::refreshFields()
 
     if( bShowExtraPayments || bShowTable )
     {
-    int nPaymentOffset = ui->spinBoxPaymentOffset->value();
-    strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, nPaymentOffset, strAnualReport, m_dTotalIntrestPaid  );
-    ui->LabelInterestPaid->setText( doubleToCurrency( m_dTotalIntrestPaid , 0, US_DOLLARS) );
-    ui->label_InterestDifference ->setText( doubleToCurrency( ( m_Mort.getInterestPaid() - m_dTotalIntrestPaid) , 0, US_DOLLARS) );
-    }
+        int nPaymentOffset = ui->spinBoxPaymentOffset->value();
+        strReport = m_Mort.getAmortizationSchedule(nPaymentNum, dExtraPaymentAmount, nStartExtraPayments, dRecurringExtraPayment, nStopExtraPayments, nPaymentOffset, strAnualReport, m_dTotalIntrestPaid  );
+        ui->LabelInterestPaid->setText( doubleToCurrency( m_dTotalIntrestPaid , 0, US_DOLLARS) );
+        ui->label_InterestDifference ->setText( doubleToCurrency( ( m_Mort.getInterestPaid() - m_dTotalIntrestPaid) , 0, US_DOLLARS) );
+     }
+
+
     if ( bShowTable )
     {
         showAmortizationSchedule();
@@ -138,7 +188,9 @@ void MainWindow::on_NumOfYears_valueChanged(int arg1)
 
 void MainWindow::on_NumOfPayments_valueChanged(int arg1)
 {
-    if(!bShowTable)
+    int nDifferenceInNumOfPayments = fabs(arg1 - m_Mort.getNumOfPayments());
+    int nThresholdForLiveUpdates = 10;
+    if(!bShowTable && (nDifferenceInNumOfPayments < nThresholdForLiveUpdates))
         on_NumOfPayments_editingFinished();
 }
 
@@ -232,12 +284,15 @@ void MainWindow::hideAmortizationSchedule()
 
 void MainWindow::showMortgageTerms()
 {
+    ui->priceLabel->show();
+    ui->lineEditPrice->show();
     //ui->label->show(); principal
     ui->checkBox->show();//DP calc %
     ui->checkBoxCalcFromMonthlyPayment->show();
     ui->labelDownPayment->show();
     ui->labelDownPaymentPercent->show();
     ui->labelAnualCostsAndTaxes->show();
+    ui->labelAnnualTax->show();
     ui->labelMontlyTax->show();
     ui->labelPrincipalAndInterest->show();
     ui->labelDownPaymentPercent->show();
@@ -249,6 +304,7 @@ void MainWindow::showMortgageTerms()
     //ui->label_6->show();
     ui->label_7->show();
     ui->label_8->show();
+    ui->label_9->show();
     ui->label_10->show();
 
     ui->label_11->show();
@@ -273,12 +329,16 @@ void MainWindow::showMortgageTerms()
 
 void MainWindow::hideMortgageTerms()
 {
+
+    ui->priceLabel->hide();
+    ui->lineEditPrice->hide();
     //ui->label->hide(); principal
     ui->checkBox->hide();//DP calc %
     ui->checkBoxCalcFromMonthlyPayment->hide();
     ui->labelDownPayment->hide();
     ui->labelDownPaymentPercent->hide();
     ui->labelAnualCostsAndTaxes->hide();
+    ui->labelAnnualTax->hide();
     ui->labelMontlyTax->hide();
     ui->labelPrincipalAndInterest->hide();
     ui->labelDownPaymentPercent->hide();
@@ -290,6 +350,7 @@ void MainWindow::hideMortgageTerms()
     //ui->label_6->hide();
     ui->label_7->hide();
     ui->label_8->hide();
+    ui->label_9->hide();
     ui->label_10->hide();
 
     ui->label_11->hide();
@@ -406,6 +467,12 @@ void MainWindow::on_lineEditRecurringExtraAmount_editingFinished()
 void MainWindow::on_checkBoxCalcFromMonthlyPayment_clicked(bool checked)
 {
     m_Mort.setCalcFromMonthlyPayment(checked);
+    if(checked)
+    {
+        double dTemp = usDollarsStringToDouble(ui->lineEditMonthlyPayment->text());
+        m_Mort.enterMonthlyPayment(dTemp);
+    }
+    refreshFields();
 }
 
 void MainWindow::on_spinBoxExtraPaymentNum_valueChanged(int arg1)
@@ -549,10 +616,17 @@ void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
     }
     m_Mort.enterMonthlyPayment(dTemp);
     if (nlength != nDecPos)
-        ui->lineEditMonthlyPayment->setText(doubleToCurrency(m_Mort.getMonthlyPayment(),nDecimalsToShow , US_DOLLARS ) );
+    {
+        double dTempMonthlyPayment = m_Mort.getMonthlyPayment();
+        dTempMonthlyPayment = roundDoubleToPoints(dTempMonthlyPayment, nDecimalsToShow);
+        QString strMontlyPayment = doubleToCurrency(dTempMonthlyPayment,nDecimalsToShow , US_DOLLARS );
+        ui->lineEditMonthlyPayment->setText(strMontlyPayment );
+
+    }
     if(!bShowTable && m_Mort.getCalcFromMontlyPayment())
         on_lineEditMonthlyPayment_editingFinished();
    }
+
 }
 
 void MainWindow::on_actionReset_All_triggered()
@@ -561,6 +635,8 @@ void MainWindow::on_actionReset_All_triggered()
     ui->doubleSpinBoxMillRate->setValue(m_Mort.getMillRate());
     ui->lineEdit_TitleBlock->clear();
     ui->NumOfPayments->setValue(m_Mort.getNumOfPayments() );
+    ui->principalLabel->setText(doubleToCurrency(m_Mort.getPrincipal(), 2, US_DOLLARS));
+
     ui->NumOfYears->setValue(m_Mort.getNumOfYears());// <---------------------
     ui->InterestRate->setValue(m_Mort.getAnualInterestRate()  );
     on_pushButtonClearExtraPayments_clicked();
@@ -616,3 +692,32 @@ void MainWindow::enterCalculatedMonthlyExpenses(double dMonthlyEpenses)
     m_Mort.enterOtherMonthlyExpenses(dMonthlyEpenses);
     refreshFields();
 }
+
+void MainWindow::on_actionAbout_triggered()
+{
+    aboutDialog *about = new aboutDialog;
+    about->show();
+}
+
+void MainWindow::on_actionAlways_On_Top_toggled(bool arg1)
+{
+    Qt::WindowFlags flags = this->windowFlags();
+    if (arg1)
+    {
+        this->setWindowFlags(flags | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+        this->show();
+    }
+    else
+    {
+        this->setWindowFlags(flags ^ (Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint));
+        this->show();
+    }
+}
+
+void MainWindow::on_NumOfPayments_valueChanged(const QString &arg1)
+{
+//    if(!bShowTable)
+//        on_NumOfPayments_editingFinished();
+}
+
+

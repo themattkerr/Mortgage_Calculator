@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>649</width>
+    <width>657</width>
     <height>631</height>
    </rect>
   </property>
@@ -20,26 +20,308 @@
    <string>Mode RN - Mortgage Calculator</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="20" column="0">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="19" column="3">
+     <widget class="QSpinBox" name="spinBoxPaymentOffset">
+      <property name="minimum">
+       <number>1</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QLineEdit" name="lineEdit_TitleBlock"/>
+    </item>
+    <item row="19" column="1">
+     <widget class="QLineEdit" name="lineEditRecurringExtraAmount"/>
+    </item>
+    <item row="19" column="2">
+     <widget class="QSpinBox" name="spinBoxRecurringExtraStop"/>
+    </item>
+    <item row="12" column="2">
+     <widget class="QLabel" name="label_LifeOfLoanTitle">
+      <property name="text">
+       <string>Life of Loan Tax and Cost: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="3">
+     <widget class="QLabel" name="labelLifeOfLoanTaxAndExpenses">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>---</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0" colspan="4">
+     <widget class="QTextBrowser" name="textBrowser">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Courier New</family>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0" colspan="4">
+     <widget class="Line" name="line_Payments">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="2">
+     <widget class="QLabel" name="label_sumInterest">
+      <property name="text">
+       <string>Total Interest Paid: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="label_extratitle">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>One-Time Extra Payment:</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="3">
+     <widget class="QLabel" name="LabelInterestPaid">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>---</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="2">
+     <widget class="QLabel" name="label_6">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Life of Loan Interest: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="monthlyPaymentLabel">
+        <property name="text">
+         <string>---</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEditMonthlyPayment"/>
+      </item>
+     </layout>
+    </item>
+    <item row="9" column="3">
+     <widget class="QLabel" name="AmountofInterest">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>----</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0" colspan="4">
+     <widget class="Line" name="lineAmortizationTable">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="3">
+     <widget class="QLabel" name="label_InterestDifference">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>--- </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="QLineEdit" name="lineEditExtraPayAmount"/>
+    </item>
+    <item row="16" column="0">
+     <widget class="QSpinBox" name="spinBoxExtraPaymentNum"/>
+    </item>
+    <item row="16" column="3">
+     <widget class="QPushButton" name="pushButtonClearExtraPayments">
+      <property name="text">
+       <string>Clear Extra Pmts</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="3">
+     <widget class="QLabel" name="labelPaymentOffsetTitle">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Payment Offset</string>
+      </property>
+     </widget>
+    </item>
+    <item row="17" column="0">
+     <widget class="QLabel" name="label_recurringExtra">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Recurring Extra Payment: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="0">
      <widget class="QLabel" name="labelRecurringStartNum">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="text">
        <string>Payment Start Number</string>
       </property>
      </widget>
     </item>
-    <item row="20" column="2">
+    <item row="18" column="1">
+     <widget class="QLabel" name="label_RecurringAmount">
+      <property name="text">
+       <string>Amount</string>
+      </property>
+     </widget>
+    </item>
+    <item row="18" column="2">
      <widget class="QLabel" name="labelRecurringExtraStopNum">
       <property name="text">
        <string>Payment Stop Number</string>
       </property>
      </widget>
     </item>
-    <item row="9" column="1">
-     <widget class="QLineEdit" name="lineEditMonthlyPayment"/>
+    <item row="19" column="0">
+     <widget class="QSpinBox" name="spinBoxRecurringExtraStartPoint"/>
     </item>
-    <item row="5" column="1">
-     <widget class="QSpinBox" name="NumOfYears"/>
+    <item row="15" column="0">
+     <widget class="QLabel" name="label_ExtraPaymentNum">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Payment Number</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="1">
+     <widget class="QLabel" name="label_extraamount">
+      <property name="text">
+       <string>Amount</string>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="2">
+     <widget class="QLabel" name="label_Diff">
+      <property name="text">
+       <string>Difference: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Monthly Payment</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
     </item>
     <item row="5" column="0">
      <widget class="QLabel" name="label_3">
@@ -51,56 +333,28 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
-     <widget class="QCheckBox" name="checkBox">
-      <property name="text">
-       <string>Calc DP From %</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QCheckBox" name="checkBoxCalcFromMonthlyPayment">
-      <property name="text">
-       <string>Calc From Mo Pmt</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>8</pointsize>
-       </font>
-      </property>
-      <property name="midLineWidth">
-       <number>0</number>
-      </property>
-      <property name="text">
-       <string>Principal</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_10">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Monthly Tax</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
+    <item row="3" column="1">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="principalLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>---</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+     </layout>
     </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_2">
@@ -125,13 +379,13 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
-     <widget class="QLineEdit" name="lineEditOtherMonthly"/>
+    <item row="5" column="1">
+     <widget class="QSpinBox" name="NumOfYears"/>
     </item>
-    <item row="2" column="2">
-     <widget class="QLabel" name="label_15">
+    <item row="5" column="2">
+     <widget class="QLabel" name="label_4">
       <property name="text">
-       <string>Percentage of Price: </string>
+       <string>Number of Payments</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
@@ -141,18 +395,8 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_13">
-      <property name="text">
-       <string>Other Monthly Costs</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="QLabel" name="labelMontlyTax">
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_10">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
         <horstretch>0</horstretch>
@@ -160,43 +404,17 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>---</string>
+       <string>Monthly Tax</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
       </property>
      </widget>
     </item>
-    <item row="20" column="1">
-     <widget class="QLabel" name="label_RecurringAmount">
-      <property name="text">
-       <string>Amount</string>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="1">
-     <widget class="QLabel" name="label_extraamount">
-      <property name="text">
-       <string>Amount</string>
-      </property>
-     </widget>
-    </item>
-    <item row="21" column="2">
-     <widget class="QSpinBox" name="spinBoxRecurringExtraStop"/>
-    </item>
-    <item row="7" column="1">
-     <widget class="QLabel" name="labelPrincipalAndInterest">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>---</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
+    <item row="5" column="3">
+     <widget class="QSpinBox" name="NumOfPayments">
+      <property name="maximum">
+       <number>1000</number>
       </property>
      </widget>
     </item>
@@ -216,98 +434,20 @@
       </property>
      </widget>
     </item>
-    <item row="15" column="2">
-     <widget class="QLabel" name="label_sumInterest">
-      <property name="text">
-       <string>Total Interest Paid: </string>
+    <item row="6" column="3">
+     <widget class="QDoubleSpinBox" name="doubleSpinBoxMillRate">
+      <property name="decimals">
+       <number>3</number>
       </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="0">
-     <widget class="QLabel" name="label_ExtraPaymentNum">
-      <property name="text">
-       <string>Payment Number</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="5">
-     <widget class="QLineEdit" name="lineEdit_TitleBlock"/>
-    </item>
-    <item row="17" column="0">
-     <widget class="QSpinBox" name="spinBoxExtraPaymentNum"/>
-    </item>
-    <item row="5" column="3">
-     <widget class="QSpinBox" name="NumOfPayments">
       <property name="maximum">
-       <number>500</number>
+       <double>100.000000000000000</double>
       </property>
      </widget>
     </item>
-    <item row="9" column="3">
-     <widget class="QLabel" name="AmountofInterest">
+    <item row="6" column="1">
+     <widget class="QLabel" name="labelMontlyTax">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>----</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Monthly Payment</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Number of Payments</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="16" column="3">
-     <widget class="QLabel" name="label_InterestDifference">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>--- </string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="3">
-     <widget class="QLabel" name="LabelInterestPaid">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -317,6 +457,134 @@
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QLabel" name="label_11">
+      <property name="text">
+       <string>Est. Tax Multiplier</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QLabel" name="labelPrincipalAndInterest">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>---</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_13">
+      <property name="text">
+       <string>Other Monthly Costs</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QLineEdit" name="lineEditOtherMonthly"/>
+    </item>
+    <item row="8" column="3">
+     <widget class="QLabel" name="labelAnualCostsAndTaxes">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>---</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLabel" name="label_14">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Taxes and Costs / Yr: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="lineEditDownPayment"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelDownPayment">
+        <property name="text">
+         <string>---</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLabel" name="label_15">
+      <property name="text">
+       <string>Percentage of Price: </string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>Principal</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -350,65 +618,6 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEditPrice">
-      <property name="minimumSize">
-       <size>
-        <width>200</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="2" column="1">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLineEdit" name="lineEditDownPayment"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="labelDownPayment">
-        <property name="text">
-         <string>---</string>
-        </property>
-        <property name="textFormat">
-         <enum>Qt::RichText</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="17" column="3">
-     <widget class="QPushButton" name="pushButtonClearExtraPayments">
-      <property name="text">
-       <string>Clear Extra Pmts</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="2">
-     <widget class="QLabel" name="label_6">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Life of Loan Interest: </string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label_7">
       <property name="text">
@@ -422,87 +631,44 @@
       </property>
      </widget>
     </item>
-    <item row="11" column="0" colspan="5">
-     <widget class="Line" name="lineAmortizationTable">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="2">
-     <widget class="QLabel" name="label_11">
+    <item row="1" column="3">
+     <widget class="QCheckBox" name="checkBox">
       <property name="text">
-       <string>Mill Rate</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <string>Calc DP From %</string>
       </property>
      </widget>
     </item>
-    <item row="6" column="3">
-     <widget class="QDoubleSpinBox" name="doubleSpinBoxMillRate">
-      <property name="decimals">
-       <number>3</number>
-      </property>
-      <property name="maximum">
-       <double>100.000000000000000</double>
-      </property>
-     </widget>
+    <item row="1" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="priceLabel">
+        <property name="text">
+         <string>---</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::RichText</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEditPrice">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
-    <item row="21" column="0">
-     <widget class="QSpinBox" name="spinBoxRecurringExtraStartPoint"/>
-    </item>
-    <item row="17" column="1">
-     <widget class="QLineEdit" name="lineEditExtraPayAmount"/>
-    </item>
-    <item row="16" column="2">
-     <widget class="QLabel" name="label_Diff">
+    <item row="1" column="2">
+     <widget class="QCheckBox" name="checkBoxCalcFromMonthlyPayment">
       <property name="text">
-       <string>Difference: </string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0" colspan="5">
-     <widget class="Line" name="line_Payments">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="12" column="0" colspan="5">
-     <widget class="QTextBrowser" name="textBrowser">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Courier New</family>
-       </font>
-      </property>
-     </widget>
-    </item>
-    <item row="14" column="2">
-     <widget class="QLabel" name="label_LifeOfLoanTitle">
-      <property name="text">
-       <string>Life of Loan Tax and Cost: </string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <string>Calc From Mo Pmt</string>
       </property>
      </widget>
     </item>
@@ -524,97 +690,26 @@
       </property>
      </widget>
     </item>
-    <item row="21" column="1">
-     <widget class="QLineEdit" name="lineEditRecurringExtraAmount"/>
-    </item>
-    <item row="14" column="3">
-     <widget class="QLabel" name="labelLifeOfLoanTaxAndExpenses">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
+    <item row="7" column="2">
+     <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>---</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="3">
-     <widget class="QLabel" name="labelAnualCostsAndTaxes">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>---</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="20" column="3">
-     <widget class="QLabel" name="labelPaymentOffsetTitle">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Payment Offset</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="0" colspan="2">
-     <widget class="QLabel" name="label_extratitle">
-      <property name="text">
-       <string>One-Time Extra Payment:</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="19" column="0" colspan="2">
-     <widget class="QLabel" name="label_recurringExtra">
-      <property name="text">
-       <string>Recurring Extra Payment: </string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="21" column="3">
-     <widget class="QSpinBox" name="spinBoxPaymentOffset">
-      <property name="minimum">
-       <number>1</number>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="2">
-     <widget class="QLabel" name="label_14">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Taxes and Costs / Yr: </string>
+       <string>Annual Tax:</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QLabel" name="labelAnnualTax">
+      <property name="text">
+       <string>---</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
       </property>
      </widget>
     </item>
@@ -625,7 +720,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>649</width>
+     <width>657</width>
      <height>24</height>
     </rect>
    </property>
@@ -633,8 +728,9 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionShow_Mortgage_Terms"/>
+    <addaction name="actionAlways_On_Top"/>
     <addaction name="separator"/>
+    <addaction name="actionShow_Mortgage_Terms"/>
     <addaction name="actionShow_Amortization_Shedule"/>
     <addaction name="actionShow_Extra_Payments"/>
    </widget>
@@ -647,8 +743,21 @@
     <addaction name="actionCalculate_Mill_Rate"/>
     <addaction name="actionCalculate_Other_Monthly_Expenses"/>
    </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>Info</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string/>
+    </property>
+   </widget>
    <addaction name="menuEdit"/>
    <addaction name="menuView"/>
+   <addaction name="menu"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionShow_Amortization_Shedule">
@@ -693,7 +802,7 @@
   </action>
   <action name="actionCalculate_Mill_Rate">
    <property name="text">
-    <string>Calculate Mill Rate</string>
+    <string>Calculate Estimated Tax Multiplier</string>
    </property>
   </action>
   <action name="actionCalculate_Other_Monthly_Expenses">
@@ -701,21 +810,34 @@
     <string>Calculate Other Monthly Expenses</string>
    </property>
   </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAlways_On_Top">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Always On Top</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>lineEditPrice</tabstop>
   <tabstop>checkBoxCalcFromMonthlyPayment</tabstop>
   <tabstop>checkBox</tabstop>
   <tabstop>lineEditDownPayment</tabstop>
   <tabstop>doubleSpinBoxDownPaymentPercent</tabstop>
-  <tabstop>lineEdit</tabstop>
   <tabstop>InterestRate</tabstop>
   <tabstop>NumOfYears</tabstop>
   <tabstop>NumOfPayments</tabstop>
   <tabstop>doubleSpinBoxMillRate</tabstop>
   <tabstop>lineEditOtherMonthly</tabstop>
-  <tabstop>lineEditMonthlyPayment</tabstop>
   <tabstop>spinBoxExtraPaymentNum</tabstop>
   <tabstop>lineEditExtraPayAmount</tabstop>
   <tabstop>pushButtonClearExtraPayments</tabstop>

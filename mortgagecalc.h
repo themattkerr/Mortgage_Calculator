@@ -3,7 +3,7 @@
 
 #include "mattcalculations.h"
 
-#define VERSION_OF_MORTGAGECALC_CLASS "1.0.0_12.22.2017"
+#define VERSION_OF_MORTGAGECALC_CLASS "1.0.1_12.24.2017"
 
 class MortgageCalc
 {
@@ -63,7 +63,7 @@ public:
 private:
     int const nNumberOfMonthsInAYear = 12;
     double const dMillRateMultiplier = .001;
-    double m_dMillRate = 23.9718;
+    double m_dMillRate = 23;
 
     double m_dPrincipal = 0;
     int m_nNumOfYears = 0;

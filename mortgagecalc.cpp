@@ -8,7 +8,7 @@ MortgageCalc::MortgageCalc()
 void MortgageCalc::resetDefaults()
 {
 
-     m_dMillRate = 23.9718;
+     m_dMillRate = 23;
 
      m_dPrincipal = 0;
      m_nNumOfYears = 0;
@@ -21,6 +21,8 @@ void MortgageCalc::resetDefaults()
      m_bCalcFromMonthlyPayment = false;
 
      m_dPrice = 0;
+     m_dPrincipal = 0;
+
 
      m_dDownPayment = 0;
      m_dDownPaymentPercent =0;
@@ -44,9 +46,9 @@ void MortgageCalc::refreshData()
         calcDownPaymentPercent();
 
     if (m_dPrice > 0 && m_dDownPayment > 0 && m_bDownpaymentEnteredAsPercent == false)
-    { m_dPrincipal = m_dPrice - m_dDownPayment; }
+        { m_dPrincipal = m_dPrice - m_dDownPayment; }
     if (m_dPrice > 0 && m_dDownPaymentPercent > 0 && m_bDownpaymentEnteredAsPercent == true)
-    { m_dPrincipal =  roundDoubleToPoints( m_dPrice - (m_dPrice * m_dDownPaymentPercent),0) ; }
+        { m_dPrincipal =  roundDoubleToPoints( m_dPrice - (m_dPrice * m_dDownPaymentPercent),0) ; }
 
     calcMonthlyLoanPaymentPandI();
     calcMontlyTax();
@@ -326,7 +328,7 @@ double MortgageCalc::getMonthlyPayment()
     double dTemp = m_dMonthyLoanPaymentPandI + m_dMonthlyTaxPayment + m_dOtherMontlyExpenses;
     if(dTemp < 0)
         return 0;
-    if(m_bCalcFromMonthlyPayment && m_dPrincipal <= 0 )
+    if(m_bCalcFromMonthlyPayment)// && m_dPrincipal <= 0 )
         return m_dMonthyPayment; //this is entered in enterMonltyPayment function
     return dTemp;
 }

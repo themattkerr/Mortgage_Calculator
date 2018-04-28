@@ -7,8 +7,9 @@
 
 #include "mortgagecalc.h"
 #include "mattcalculations.h"
+#include "aboutdialog.h"
 
-#define CURRENT_VERSION "1.1.1.BETA"
+#define CURRENT_VERSION "1.1.2_Beta_Build_3"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,10 @@ public:
     void enterCalculatedMonthlyExpenses(double dMonthlyEpenses);
     void refreshFields();
     void updateMillRate();
+    void setupCalcFromMonthlyPaymentGUI();
+    void setupCalcFromPercentGUI();
+    void setupAmortizationTableAndExtraPaymentsGUI();
+    void showOrHideCalcFromMontlyPayment();
 
 private slots:
     void on_actionTitle_Block_toggled(bool arg1);
@@ -89,6 +94,14 @@ private slots:
     void on_actionCalculate_Mill_Rate_triggered();
 
     void on_actionCalculate_Other_Monthly_Expenses_triggered();
+
+    void on_actionAbout_triggered();
+
+    void on_actionAlways_On_Top_toggled(bool arg1);
+
+    void on_NumOfPayments_valueChanged(const QString &arg1);
+
+
 
 private:
     Ui::MainWindow *ui;

@@ -28,25 +28,31 @@ SOURCES += main.cpp\
     mortgagecalc.cpp \
     mattcalculations.cpp \
     calculatemillratedialog.cpp \
-    calculateothermonthlyexpensesdialog.cpp
+    calculateothermonthlyexpensesdialog.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
     mortgagecalc.h \
     mattcalculations.h \
     calculatemillratedialog.h \
-    calculateothermonthlyexpensesdialog.h
+    calculateothermonthlyexpensesdialog.h \
+    aboutdialog.h
 
 FORMS    += mainwindow.ui \
     calculatemillratedialog.ui \
-    calculateothermonthlyexpensesdialog.ui
+    calculateothermonthlyexpensesdialog.ui \
+    aboutdialog.ui
 
 DISTFILES += \
     install.nsi \
     res.rc \
     Calculator.ico \
-    mortgage1.ico
+    mortgage1.ico \
+    Mode Logo.png \
+    Mode Logo.png \
+    Mode Logo.bmp
 
 RC_FILE = res.rc
 
-QMAKE_POST_LINK += windeployqt \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" --dir \"$$system_path($${_PRO_FILE_PWD_}/Deploy)\"
-QMAKE_POST_LINK += && $$QMAKE_COPY \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" \"$$system_path($${_PRO_FILE_PWD_}/Deploy/)\"
+#QMAKE_POST_LINK += windeployqt \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" --dir \"$$system_path($${_PRO_FILE_PWD_}/Deploy)\"
+#QMAKE_POST_LINK += && $$QMAKE_COPY \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" \"$$system_path($${_PRO_FILE_PWD_}/Deploy/)\"

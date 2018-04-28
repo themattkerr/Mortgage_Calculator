@@ -12,7 +12,6 @@ CalculateMillRateDialog::CalculateMillRateDialog(QWidget *parent, double *dMillR
 
     Qt::WindowFlags flags = this->windowFlags();
     this->setWindowFlags(flags|Qt::WindowStaysOnTopHint);
-    this->setWindowTitle("Calculate Mill Rate");
 
     refreshFields();
 }
