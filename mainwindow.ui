@@ -527,7 +527,7 @@
        </sizepolicy>
       </property>
       <property name="text">
-       <string>Taxes and Costs / Yr: </string>
+       <string>Other Costs / Yr: </string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>
@@ -693,7 +693,7 @@
     <item row="7" column="2">
      <widget class="QLabel" name="label_9">
       <property name="text">
-       <string>Annual Tax:</string>
+       <string>Est.  Annual Tax:</string>
       </property>
       <property name="textFormat">
        <enum>Qt::RichText</enum>

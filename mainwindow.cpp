@@ -41,7 +41,9 @@ void MainWindow::refreshFields()
     ui->labelPrincipalAndInterest->setText( doubleToCurrency(m_Mort.getPrincipalAndInterestMontlyPayment() , 2, US_DOLLARS  )  ); //<-----------------------------
 
     ui->lineEditOtherMonthly->setText( doubleToCurrency( m_Mort.getOtherMontlyExpenses() , 2, US_DOLLARS)  );
-    ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( m_Mort.getAnnualTaxesAndExpenses(), 0, US_DOLLARS) );
+    ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( (12*m_Mort.getOtherMontlyExpenses()), 0, US_DOLLARS) );
+    //trying out to see if just having annual other costs is ok.
+    //ui->labelAnualCostsAndTaxes->setText( doubleToCurrency( m_Mort.getAnnualTaxesAndExpenses(), 0, US_DOLLARS) );
 
     ui->labelLifeOfLoanTaxAndExpenses->hide();
     ui->label_LifeOfLoanTitle->hide();
@@ -529,6 +531,13 @@ void MainWindow::on_NumOfYears_editingFinished()
 {
     int arg1 = ui->NumOfYears->value();
     m_Mort.enterNumOfYears(arg1 );
+    int nNumOfPayments = ui->NumOfPayments->value();
+    int const nNumOfMonthsInYear = 12;
+    if(arg1 == static_cast<int>(nNumOfPayments/nNumOfMonthsInYear))
+    {
+        m_Mort.enterNumOfPayments(nNumOfPayments);
+    }
+
     ui->NumOfPayments->setValue(m_Mort.getNumOfPayments()  );
     refreshFields();
 }
