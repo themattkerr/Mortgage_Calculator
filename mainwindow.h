@@ -9,7 +9,7 @@
 #include "mattcalculations.h"
 #include "aboutdialog.h"
 
-#define CURRENT_VERSION "1.1.2_Beta_Build_3"
+#define CURRENT_VERSION "1.1.2"
 
 namespace Ui {
 class MainWindow;
