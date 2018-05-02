@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-#include "mattcalculations.h"
+#include "../../Matts_Software/General_Library/mattcalculations.h"
 
 
 namespace Ui {

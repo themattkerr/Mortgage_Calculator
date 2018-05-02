@@ -26,17 +26,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     mortgagecalc.cpp \
-    mattcalculations.cpp \
     calculatemillratedialog.cpp \
     calculateothermonthlyexpensesdialog.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    ../../Matts_Software/General_Library/mattcalculations.cpp
+
 
 HEADERS  += mainwindow.h \
     mortgagecalc.h \
-    mattcalculations.h \
     calculatemillratedialog.h \
     calculateothermonthlyexpensesdialog.h \
-    aboutdialog.h
+    aboutdialog.h \
+    ../../Matts_Software/General_Library/mattcalculations.h
+
 
 FORMS    += mainwindow.ui \
     calculatemillratedialog.ui \
@@ -54,5 +56,5 @@ DISTFILES += \
 
 RC_FILE = res.rc
 
-QMAKE_POST_LINK += windeployqt \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" --dir \"$$system_path($${_PRO_FILE_PWD_}/Deploy)\"
-QMAKE_POST_LINK += && $$QMAKE_COPY \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" \"$$system_path($${_PRO_FILE_PWD_}/Deploy/)\"
+#QMAKE_POST_LINK += windeployqt \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" --dir \"$$system_path($${_PRO_FILE_PWD_}/Deploy)\"
+#QMAKE_POST_LINK += && $$QMAKE_COPY \"$$system_path($${OUT_PWD}/release/Mortgage_Calculator.exe)\" \"$$system_path($${_PRO_FILE_PWD_}/Deploy/)\"

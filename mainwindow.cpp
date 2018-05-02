@@ -34,6 +34,10 @@ void MainWindow::refreshFields()
         showMortgageTerms();
     else
         hideMortgageTerms();
+    if(bShowPaymentStatistics)
+        showPaymentStatistics();
+    else
+        hidePaymentStatistics();
 
     ui->AmountofInterest->setText( doubleToCurrency (m_Mort.getInterestPaid(), 0, US_DOLLARS)    );
 
@@ -57,6 +61,26 @@ void MainWindow::refreshFields()
 
     //Save this for another day - Too confusing
     //ui->labelLifeOfLoanTaxAndExpenses->setText( doubleToCurrency ( m_Mort.getLifeOfLoanTaxesAndExpenses(),0, US_DOLLARS));
+    if(bShowPaymentStatistics)
+        refreshPayStats();
+}
+
+void MainWindow::refreshPayStats()
+{
+    setMaxMinForPayStats();
+    //Calc Interst and pricipal paid  InputPayments, &dCalcPricipal, &dCalcInterest, &nPaymentNumOfPayOff
+    //PaintPayStatsfields();
+
+
+
+}
+
+void MainWindow::setMaxMinForPayStats()
+{
+    int nMaxPaymentNum = ui->NumOfPayments->value();
+    int nMaxYearsNum = ui->NumOfYears->value();
+    ui->payStatPaymentSpinBox->setMaximum(nMaxPaymentNum);
+    ui->payStatYearSpinBox->setMaximum(nMaxYearsNum);
 }
 
 void MainWindow::setupCalcFromMonthlyPaymentGUI()
@@ -182,7 +206,7 @@ void MainWindow::setupAmortizationTableAndExtraPaymentsGUI()
         hideExtraPayments();
 }
 
-void MainWindow::on_NumOfYears_valueChanged(int arg1)
+void MainWindow::on_NumOfYears_valueChanged()
 {
     if(!bShowTable)
         on_NumOfYears_editingFinished();
@@ -196,13 +220,13 @@ void MainWindow::on_NumOfPayments_valueChanged(int arg1)
         on_NumOfPayments_editingFinished();
 }
 
-void MainWindow::on_lineEdit_textChanged(const QString &arg1)
+void MainWindow::on_lineEdit_textChanged()
 {
     if(!bShowTable)
         on_lineEdit_editingFinished();
 }
 
-void MainWindow::on_InterestRate_valueChanged(double arg1)
+void MainWindow::on_InterestRate_valueChanged()
 {
     if(!bShowTable)
         on_InterestRate_editingFinished();
@@ -223,19 +247,19 @@ void MainWindow::on_lineEditMonthlyPayment_editingFinished()
     refreshFields();
 }
 
-void MainWindow::on_lineEditDownPayment_textChanged(const QString &arg1)
+void MainWindow::on_lineEditDownPayment_textChanged()
 {
     if(!bShowTable)
         on_lineEditDownPayment_editingFinished();
 }
 
-void MainWindow::on_lineEditPrice_textChanged(const QString &arg1)
+void MainWindow::on_lineEditPrice_textChanged()
 {
     if(!bShowTable)
         on_lineEditPrice_editingFinished();
 }
 
-void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged(double arg1)
+void MainWindow::on_doubleSpinBoxDownPaymentPercent_valueChanged()
 {
     if(!bShowTable)
         on_doubleSpinBoxDownPaymentPercent_editingFinished();
@@ -421,6 +445,73 @@ void MainWindow::hideExtraPayments()
     ui->spinBoxPaymentOffset->hide();
 }
 
+void MainWindow::showPaymentStatistics()
+{
+    ui->payStatEquityLabel->show();
+    ui->payStatInterestLabel->show();
+    ui->payStatIntTaxOtherLabel->show();
+    ui->payStatOtherLabel->show();
+    ui->payStatPaymentSpinBox->show();
+    ui->payStatPmtsToZeroLabel->show();
+    ui->payStatPrincipalLabel->show();
+    ui->payStatsLine->show();
+    ui->payStatTaxesLabel->show();
+    ui->payStatYearSpinBox->show();
+    ui->payStatYearsToZeroLabel->show();
+    ui->payStatInerestSavedLabel->show();
+    ui->payStat80LoanToValueLabel->show();
+    ui->payStatSumExtraPaymentsLabel->show();
+    ui->payStatDiffInValueLabel->show();
+
+    ui->label_16->show();
+    ui->label_17->show();
+    ui->label_18->show();
+    ui->label_19->show();
+    ui->label_20->show();
+    ui->label_21->show();
+    ui->label_22->show();
+    ui->label_23->show();
+    ui->label_24->show();
+    ui->label_25->show();
+    ui->label_28->show();
+    ui->label_29->show();
+    ui->label_26->show();
+    ui->label_27->show();
+}
+
+void MainWindow::hidePaymentStatistics()
+{
+    ui->payStatEquityLabel->hide();
+    ui->payStatInterestLabel->hide();
+    ui->payStatIntTaxOtherLabel->hide();
+    ui->payStatOtherLabel->hide();
+    ui->payStatPaymentSpinBox->hide();
+    ui->payStatPmtsToZeroLabel->hide();
+    ui->payStatPrincipalLabel->hide();
+    ui->payStatsLine->hide();
+    ui->payStatTaxesLabel->hide();
+    ui->payStatYearSpinBox->hide();
+    ui->payStatYearsToZeroLabel->hide();
+    ui->payStatInerestSavedLabel->hide();
+    ui->payStat80LoanToValueLabel->hide();
+    ui->payStatSumExtraPaymentsLabel->hide();
+    ui->payStatDiffInValueLabel->hide();
+
+    ui->label_16->hide();
+    ui->label_17->hide();
+    ui->label_18->hide();
+    ui->label_19->hide();
+    ui->label_20->hide();
+    ui->label_21->hide();
+    ui->label_22->hide();
+    ui->label_23->hide();
+    ui->label_24->hide();
+    ui->label_25->hide();
+    ui->label_28->hide();
+    ui->label_29->hide();
+    ui->label_26->hide();
+    ui->label_27->hide();
+}
 
 void MainWindow::on_actionShow_Amortization_Shedule_toggled(bool arg1)
 {
@@ -477,7 +568,7 @@ void MainWindow::on_checkBoxCalcFromMonthlyPayment_clicked(bool checked)
     refreshFields();
 }
 
-void MainWindow::on_spinBoxExtraPaymentNum_valueChanged(int arg1)
+void MainWindow::on_spinBoxExtraPaymentNum_valueChanged()
 {
     if(!bShowTable)
         on_spinBoxExtraPaymentNum_editingFinished();
@@ -570,7 +661,7 @@ void MainWindow::on_spinBoxPaymentOffset_editingFinished()
     refreshFields();
 }
 
-void MainWindow::on_spinBoxPaymentOffset_valueChanged(int arg1)
+void MainWindow::on_spinBoxPaymentOffset_valueChanged()
 {
     if(!bShowTable)
         on_spinBoxPaymentOffset_editingFinished();
@@ -590,17 +681,7 @@ void MainWindow::on_lineEdit_TitleBlock_textChanged(const QString &arg1)
         this->setWindowTitle(arg1);
 }
 
-void MainWindow::on_doubleSpinBoxMillRate_valueChanged(double arg1)
-{
 
-//    static bool bLiveUpdate;
-//    if(!bShowTable)
-//        if(fabs(m_Mort.getMillRate()-arg1) >= 1  )
-//        {
-//            on_doubleSpinBoxMillRate_editingFinished();
-//        }
-
-}
 
 void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
 {
@@ -619,8 +700,7 @@ void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
     {
         for (int iii = 0; iii < (nlength -1); iii++)
             strTemp.append(arg1[iii]  );
-        strTemp;
-        nDecimalsToShow =2;
+        nDecimalsToShow = 2;
         dTemp = usDollarsStringToDouble(strTemp);
     }
     m_Mort.enterMonthlyPayment(dTemp);
@@ -630,12 +710,10 @@ void MainWindow::on_lineEditMonthlyPayment_textChanged(const QString &arg1)
         dTempMonthlyPayment = roundDoubleToPoints(dTempMonthlyPayment, nDecimalsToShow);
         QString strMontlyPayment = doubleToCurrency(dTempMonthlyPayment,nDecimalsToShow , US_DOLLARS );
         ui->lineEditMonthlyPayment->setText(strMontlyPayment );
-
     }
     if(!bShowTable && m_Mort.getCalcFromMontlyPayment())
         on_lineEditMonthlyPayment_editingFinished();
    }
-
 }
 
 void MainWindow::on_actionReset_All_triggered()
@@ -660,15 +738,9 @@ void MainWindow::on_actionShow_Mortgage_Terms_toggled(bool arg1)
     refreshFields();
 }
 
-void MainWindow::on_doubleSpinBoxMillRate_valueChanged(const QString &arg1)
+void MainWindow::on_doubleSpinBoxMillRate_valueChanged()
 {
-//        bool *ok = new bool;
-//        static bool bLiveUpdate;
-//        if(arg1 == "")
-//            bLiveUpdate = false;
-
-        if(!bShowTable)
-//            if(fabs(m_Mort.getMillRate()-arg1.toDouble(ok)) >= 1  )
+       if(!bShowTable)
             {
                 on_doubleSpinBoxMillRate_editingFinished();
             }
@@ -693,9 +765,8 @@ void MainWindow::on_actionCalculate_Mill_Rate_triggered()
 void MainWindow::on_actionCalculate_Other_Monthly_Expenses_triggered()
 {
     m_cMontlyCosts->show();
-//    m_Mort.enterOtherMonthlyExpenses(m_dCalculatedMonthlyExpenses);
-//    refreshFields();
 }
+
 void MainWindow::enterCalculatedMonthlyExpenses(double dMonthlyEpenses)
 {
     m_Mort.enterOtherMonthlyExpenses(dMonthlyEpenses);
@@ -723,10 +794,43 @@ void MainWindow::on_actionAlways_On_Top_toggled(bool arg1)
     }
 }
 
-void MainWindow::on_NumOfPayments_valueChanged(const QString &arg1)
+
+
+
+
+
+void MainWindow::on_actionShow_Payment_Statistics_toggled(bool arg1)
 {
-//    if(!bShowTable)
-//        on_NumOfPayments_editingFinished();
+    bShowPaymentStatistics = arg1;
+    refreshFields();
 }
 
 
+
+void MainWindow::on_payStatYearSpinBox_valueChanged()
+{
+    if(!bShowTable)
+        on_payStatYearSpinBox_editingFinished();
+}
+
+void MainWindow::on_payStatYearSpinBox_editingFinished()
+{
+    int nNumOfMonthsInYear = 12;
+    int nYear = ui->payStatYearSpinBox->value();
+    int nPayNum = ui->payStatPaymentSpinBox->value();
+    if(nYear != (nPayNum/nNumOfMonthsInYear))
+        ui->payStatPaymentSpinBox->setValue(nYear*nNumOfMonthsInYear);
+}
+
+void MainWindow::on_payStatPaymentSpinBox_valueChanged()
+{
+    if(!bShowTable)
+        on_payStatPaymentSpinBox_editingFinished();
+}
+
+void MainWindow::on_payStatPaymentSpinBox_editingFinished()
+{
+    int nNumOfMonthsInYear = 12;
+    int nPaymentNum = ui->payStatPaymentSpinBox->value();
+    ui->payStatYearSpinBox->setValue(nPaymentNum/nNumOfMonthsInYear);
+}

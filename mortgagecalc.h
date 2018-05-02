@@ -1,9 +1,9 @@
 #ifndef MORTGAGECALC_H
 #define MORTGAGECALC_H
 
-#include "mattcalculations.h"
+#include "../../Matts_Software/General_Library/mattcalculations.h"
 
-#define VERSION_OF_MORTGAGECALC_CLASS "1.0.1_12.24.2017"
+#define VERSION_OF_MORTGAGECALC_CLASS "1.0.2_5.2.2018"
 
 class MortgageCalc
 {
