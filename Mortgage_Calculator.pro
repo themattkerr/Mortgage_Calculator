@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     calculatemillratedialog.cpp \
     calculateothermonthlyexpensesdialog.cpp \
     aboutdialog.cpp \
-    ../../Matts_Software/General_Library/mattcalculations.cpp
+    ../../Matts_Software/General_Library/mattcalculations.cpp \
+    mortgagecalc.cpp \
 
 
 HEADERS  += mainwindow.h \
